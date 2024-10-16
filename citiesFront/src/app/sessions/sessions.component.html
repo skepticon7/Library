@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<div class="flex flex-col gap-5 justify-center items-start mx-56 py-16">
+  <h3 class="poppins-semibold text-2xl">Sessions</h3>
+  <ng-container *ngIf="sessionData as session ; else failureOrLoading">
+    <ng-container *ngIf="session.length > 0 ; else emptySession">
+      <div class="max-h-full overflow-y-scroll w-full">
+        <table class="w-full">
+          <thead class="bg-amber-500">
+          <tr>
+            <td class="rounded-tl-md px-2 py-2 text-white poppins-semibold text-lg">Book Title</td>
+            <td class="px-2 py-2 text-white poppins-semibold text-lg">Session Price</td>
+            <td class="px-2 py-2 text-white poppins-semibold text-lg">Original Time</td>
+            <td class="px-2 py-2 text-white poppins-semibold text-lg">Remaining Time</td>
+            <td class="px-2 py-2 text-white poppins-semibold text-lg">Current Page</td>
+            <td class="rounded-tr-md px-2 py-2 text-white poppins-semibold text-lg">Session Status</td>
+          </tr>
+          </thead>
+          <tbody class="bg-gray-200" *ngFor="let s of session ; let i = index">
+          <tr [ngClass]="{'border-b-2 border-black' : i < session.length - 1}">
+            <td class="max-w-56 whitespace-break-spaces px-2 py-2 text-black poppins-medium text-md hover:underline cursor-pointer" routerLink="/book" [queryParams]="{bookId:s.book.id , shelfId : s.book.shelf.id}" [ngClass]="{'rounded-bl-md' : session.length - 1 === i}">{{s.book.title}}</td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">{{s.price}}$</td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">
+              <ng-container *ngIf="s.originalTime.hours && s.originalTime.hours !== 0">{{s.originalTime.hours}} Hours </ng-container>
+              <ng-container *ngIf="s.originalTime.minutes && s.originalTime.minutes !== 0">{{s.originalTime.minutes}} Minutes</ng-container>
+            </td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">
+              <ng-container *ngIf="s.remainingTime.hours && s.remainingTime.hours !== 0">{{s.remainingTime.hours}} Hours </ng-container>
+              <ng-container *ngIf="s.remainingTime.minutes && s.remainingTime.minutes !== 0">{{s.remainingTime.minutes}} Minutes</ng-container>
+            </td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">{{s.currentPage}}$</td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">
+              <button class="px-3 py-1 rounded-md text-white"  [disabled]="s.sessionStatus === 'Finished'" [ngClass]="{'bg-green-500' : s.sessionStatus === 'Active' , 'bg-red-500' : s.sessionStatus === 'Finished' , 'rounded-' : session.length - 1 === i}" routerLink="/pdfBook">{{s.sessionStatus}}</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+    <ng-template #emptySession>
+      <p class="poppins-semibold text-xl">there are no sessions for you</p>
+    </ng-template>
+  </ng-container>
+  <ng-template #failureOrLoading>
+    <ng-container *ngIf="errorMessage ; else loading">
+      <p class="poppins-semibold opacity-70 text-xl">{{errorMessage}}</p>
+    </ng-container>
+    <ng-template #loading>
+      <span class="loading loading-spinner loading-lg self-center bg-amber-500"></span>
+    </ng-template>
+  </ng-template>
+</div>

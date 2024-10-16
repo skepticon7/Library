@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+<div class="mx-56 py-10 flex flex-col">
+  <h2 class="poppins-bold text-2xl">New Shelf</h2>
+  <form (ngSubmit)="handleNewShelf()" [formGroup]="newShelfForm" class="flex flex-col gap-2 max-w-60 self-center">
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="Shelf number" type="number" formControlName="shelfNumber">
+      <span *ngIf="newShelfForm.get('shelfNumber')?.invalid && newShelfForm.get('shelfNumber')?.touched" class="text-red-600 text-sm poppins-medium" >shelf number is empty</span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="Books capacity" type="number" formControlName="booksCapacity">
+      <span *ngIf="newShelfForm.get('booksCapacity')?.invalid && newShelfForm.get('booksCapacity')?.touched" class="text-red-600 text-sm poppins-medium" >books capacity is empty</span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <select  class="rounded-md border-2 border-black px-2 py-2 text-sm border-opacity-70"  formControlName="category">
+        <option value="" disabled selected>Select Category</option>
+        <option value="History">History</option>
+        <option value="Geography">Geography</option>
+        <option value="Mathematics">Mathematics</option>
+        <option value="Religion">Religion</option>
+        <option value="Physics">Physics</option>
+        <option value="Fiction">Fiction</option>
+        <option value="Science">Science</option>
+      </select><span *ngIf="newShelfForm.get('category')?.invalid && newShelfForm.get('category')?.touched" class="text-red-600 text-sm poppins-medium" >category is empty</span>
+    </div>
+    <button [disabled]="newShelfForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2">Save</button>
+  </form>
+</div>
+
+

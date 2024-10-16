@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<div class="flex flex-col gap-5 mx-56 py-10">
+  <div class="flex flex-col gap-3 items-center">
+      <ng-container *ngIf="librariesData as libraries ; else failureOrLoading">
+        <ng-container *ngIf="libraries.length > 0 ; else dataEmpty">
+          <div class="flex flex-col gap-10">
+            <div class="flex justify-between">
+              <h3 class="text-2xl poppins-semibold opacity-70 self-start">Libraries : </h3>
+              <div class="self-end">
+                <select (change)="handleFiltersLibrary($event)" class="text-lg poppins-medium opacity-70">
+                  <option value="" disabled selected>Select filter</option>
+                  <option value="['visitors','asc']">visitors Ascending</option>
+                  <option value="['visitors','desc']">visitors Descending</option>
+                  <option value="['shelves','asc']">shelves Ascending</option>
+                  <option value="['shelves','desc']">shelves Descending</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex gap-10 w-full">
+              <div class="border-black border-2 p-3  rounded-md max-w-56">
+                <form class="flex flex-col gap-3" [formGroup]="libraryFilterForm" (ngSubmit)="handleFilterForm()">
+                  <div class="flex flex-col gap-2">
+                    <label>capacity : </label>
+                    <div class="flex gap-2" >
+                      <input  class="w-4/6 rounded-md px-3 py-1  border-black border-2"  type="number" [value]="minCapacityValue" placeholder="min" formControlName="minCapacityValue" >
+                      <input  class="w-4/6 rounded-md px-3 py-1 border-black border-2"  type="number" [value]="maxCapacityValue" placeholder="max" formControlName="maxCapacityValue" >
+                    </div>
+                  </div>
+                  <div class="flex flex-col gap-2">
+                    <label>shelves : </label>
+                    <div class="flex gap-2">
+                      <input  class="w-4/6 rounded-md px-3 py-1  border-black border-2"  type="number" [value]="minShelvesValue" placeholder="min" formControlName="minShelvesValue">
+                      <input  class="w-4/6 rounded-md px-3 py-1 border-black border-2"  type="number" [value]="maxShelvesValue" placeholder="max" formControlName="maxShelvesValue" >
+                    </div>
+                  </div>
+                  <button class="bg-amber-500 rounded-lg text-white poppins-semibold px-2 py-1 self-center">Filter</button>
+                </form>
+              </div>
+              <div class="grid grid-cols-4 w-full gap-x-5 gap-y-5">
+                <div *ngFor="let l of librariesData " class="flex flex-col gap-5 items-center justify-center gap-3 border-2 border-black border-opacity-70 rounded-lg max-w-60 p-2">
+                  <h3 class="poppins-semibold text-lg self-center text-center">{{l.name}}</h3>
+                  <p class="poppins-medium text-md ">visitors capacity : {{l.visitorsCapacity}}</p>
+                  <p class="poppins-medium text-md ">shelves capacity : {{l.shelvesCapacity}}</p>
+                  <button class="bg-amber-500 px-3 py-1 rounded-lg text-sm text-white poppins-semibold self-center" routerLink="/shelves" [queryParams]="{libraryId : l.id}">Check Shelves</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #dataEmpty>
+          <p class="poppins-semibold text-md">there are no libraries in this city</p>
+        </ng-template>
+      </ng-container>
+    <div class="flex items-center justify-center self-center w-full">
+      <ng-template #failureOrLoading>
+        <ng-container *ngIf="errorMessage ; else loading">
+          <p class="poppins-semibold opacity-70 text-xl">{{errorMessage}}</p>
+        </ng-container>
+        <ng-template #loading>
+          <span class="loading loading-spinner loading-lg self-center bg-amber-500"></span>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+   <button class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/newLibrary" [queryParams]="{cityId : cityId} ">add library</button>
+</div>

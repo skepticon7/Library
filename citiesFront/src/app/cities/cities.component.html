@@ -1,0 +1,32 @@
+<app-navbar></app-navbar>
+<div class="mx-56 py-10 flex flex-col items-start justify-center gap-5">
+  <select (change)="handleFilters($event)">
+    <option value="" disabled selected>Select filter</option>
+    <option value="desc" >libraries max</option>
+    <option value="asc" >libraries min</option>
+  </select>
+  <div class=" grid grid-cols-4 gap-x-10 gap-y-3 w-full">
+    <ng-container *ngIf="CitiesData as city ; else failureOrLoading">
+      <ng-container *ngIf="city.length > 0 ; else cityEmpty">
+        <div *ngFor="let c of CitiesData" class="flex flex-col gap-1 border-2 border-black border-opacity-70 rounded-lg max-w-60 p-2">
+          <img [src]="c.photo" class="rounded-lg h-44"  alt="photo-city">
+          <h3 class="poppins-semibold text-lg self-center">{{c.name}}</h3>
+          <p class="poppins-medium text-md self-center">libraries : {{c.librarySize}}</p>
+          <button class="bg-amber-500 px-3 py-1 rounded-lg text-sm text-white poppins-semibold self-center" routerLink="/libraries" [queryParams]="{cityId : c.id }">Check libraries</button>
+        </div>
+      </ng-container>
+      <ng-template #cityEmpty>
+        <p class="poppins-semibold text-md">there are no cities</p>
+      </ng-template>
+    </ng-container>
+    <ng-template #failureOrLoading>
+      <ng-container *ngIf="ErrorMessage ; else Loading" >
+        {{ErrorMessage}}
+      </ng-container>
+      <ng-template #Loading>
+        <span class="loading loading-spinner loading-lg self-center bg-amber-500"></span>
+      </ng-template>
+    </ng-template>
+  </div>
+  <button class="bg-amber-500 px-3 py-1 rounded-lg poppins-semibold text-sm text-white" routerLink="/newCity">Add a city</button>
+</div>

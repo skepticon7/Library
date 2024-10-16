@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+<div class="flex flex-col gap-5 justify-center items-start mx-56 py-10">
+  <h3 class="poppins-semibold text-2xl">Shelves :</h3>
+  <div class="self-end">
+    <select (change)="handleFiltersShelves($event)">
+      <option  value="" disabled selected>Select filter</option>
+      <option class="text-sm poppins-medium opacity-70" [value]="['capacity','asc']" >Capacity Ascending</option>
+      <option class="text-sm poppins-medium opacity-70" [value]="['capacity','desc']" >Capacity Descending</option>
+      <option class="text-sm poppins-medium opacity-70" [value]="['books','asc']" >Books Ascending</option>
+      <option class="text-sm poppins-medium opacity-70" [value]="['books','desc']" >Books Descending</option>
+    </select>
+  </div>
+  <div class="flex gap-10 items-start justify-center">
+    <div class="border-black border-2 p-3 rounded-md max-w-56">
+      <form class="flex flex-col gap-3" [formGroup]="shelfFormGroup" (ngSubmit)="handleShelfFilter()">
+        <label>Books capacity : </label>
+        <div class="flex gap-2" >
+          <input  class="w-4/6 rounded-md px-3 py-1  border-black border-2"  type="number" [value]="minCapacityValue" placeholder="min" formControlName="minCapacityValue" >
+          <input  class="w-4/6 rounded-md px-3 py-1 border-black border-2"  type="number" [value]="maxCapacityValue" placeholder="max" formControlName="maxCapacityValue" >
+        </div>
+        <label>Books occupied : </label>
+        <div class="flex gap-2" >
+          <input  class="w-4/6 rounded-md px-3 py-1  border-black border-2"  type="number" [value]="minOccupiedValue" placeholder="min" formControlName="minOccupiedValue" >
+          <input  class="w-4/6 rounded-md px-3 py-1 border-black border-2"  type="number" [value]="maxOccupiedValue" placeholder="max" formControlName="maxOccupiedValue" >
+        </div>
+        <button class="bg-amber-500 rounded-lg text-white poppins-semibold px-2 py-1 self-center">Filter</button>
+      </form>
+    </div>
+    <div class="flex flex-col gap-5">
+      <ng-container *ngIf="shelvesData  as shelves ; else errorOrLoading">
+         <ng-container *ngIf="shelves.length > 0 ; else emptyShelves">
+           <div class="grid grid-cols-4 w-full gap-x-5 gap-y-5">
+             <div *ngFor="let s of shelvesData" class="flex flex-col items-center justify-between gap-3 border-2 border-black border-opacity-70 rounded-lg max-w-64 p-2">
+               <img class="w-20" [src]="categoryImageLinkGenerator(s.category)" alt="categoryImage">
+               <h3 class="poppins-semibold text-xl ">{{s.category}} Shelf</h3>
+               <h3 class="poppins-medium text-md ">Shelf number : {{s.shelfNumber}} </h3>
+               <p class="poppins-medium text-md">Books Capacity : {{s.booksCapacity}}</p>
+               <p class="poppins-medium text-md ">current books : {{s.currentBooks}}</p>
+               <button class="bg-amber-500 rounded-lg text-white text-sm self-center poppins-semibold px-2 py-1 " routerLink="/books"  [queryParams]="{shelfId : s.id}">check books</button>
+             </div>
+           </div>
+         </ng-container>
+         <ng-template #emptyShelves>
+           <p class="poppins-semibold text-xl">There are no shelves in this library</p>
+         </ng-template>
+      </ng-container>
+      <ng-template #errorOrLoading>
+        <ng-container *ngIf="errorMessage ; else loading">
+          {{errorMessage}}
+        </ng-container>
+        <ng-template #loading>
+          <p class="poppins-semibold text-xl">Loading...</p>
+        </ng-template>
+      </ng-template>
+      <button class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/newShelf"  [queryParams]="{libraryId : libraryId} ">add shelf</button>
+    </div>
+  </div>
+</div>

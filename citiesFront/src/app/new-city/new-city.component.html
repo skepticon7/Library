@@ -1,0 +1,15 @@
+<app-navbar></app-navbar>
+<div class="mx-56 py-10 flex flex-col">
+  <h2 class="poppins-bold text-2xl">New City</h2>
+  <form (ngSubmit)="handleNewCity()" [formGroup]="newCityForm" class="flex flex-col gap-2 max-w-60 self-center">
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="City name" type="text" formControlName="name">
+      <span *ngIf="newCityForm.get('name')?.invalid && newCityForm.get('name')?.touched" class="text-red-600 text-sm poppins-medium" >name is empty</span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" type="file" accept="image/*" (change)="onFileChange($event)" formControlName="photo">
+      <span *ngIf="newCityForm.get('photo')?.invalid && newCityForm.get('photo')?.touched" class="text-red-600 text-sm poppins-medium" >Photo is empty</span>
+    </div>
+    <button [disabled]="newCityForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2">Save</button>
+  </form>
+</div>

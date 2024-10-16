@@ -1,0 +1,31 @@
+
+<div class="py-3 mx-56">
+  <div class="flex justify-between">
+    <img class="w-10" src="open-book.png" alt="library-logo">
+    <div class="flex gap-5 items-center justify-center">
+      <a class="poppins-semibold cursor-pointer select-none" routerLink="">Home</a>
+      <a class="poppins-semibold cursor-pointer select-none">About us</a>
+      <a class="poppins-semibold cursor-pointer select-none" routerLink="/cities">Cities</a>
+      <a class="poppins-semibold cursor-pointer select-none">Contact</a>
+    </div>
+    <div class="flex gap-5 items-center justify-center">
+        <form (ngSubmit)="HandleSearchForm()" class="px-2 h-full text-sm rounded-md border-2 border-black flex items-center justify-center gap-2">
+          <input [(ngModel)]="keyword" type="text" name="keyword" placeholder="search" class="focus:outline-none">
+          <select [(ngModel)]="category" name="category" class="focus:outline-none px-2 py-2 text-sm border-opacity-70">
+            <option value="" disabled>Select Category</option>
+            <option value="cities" >Cities</option>
+            <option value="libraries">Libraries</option>
+            <option value="books">Books</option>
+            <option value="Librarian">Librarian</option>
+          </select>
+          <button type="submit" class="bg-amber-500 p-1 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 0 24 24" width="22px" fill="">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M15.5 14h-.79l-.28-.27A6.518 6.518 0 0016 9.5 6.5 6.5 0 109.5 16a6.518 6.518 0 004.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zM9.5 14C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+          </button>
+        </form>
+      <button class=" bg-amber-500 px-3 h-full poppins-semibold rounded-lg text-white">Login</button>
+    </div>
+  </div>
+</div>

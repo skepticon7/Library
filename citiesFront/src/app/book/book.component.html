@@ -1,0 +1,36 @@
+<app-navbar></app-navbar>
+<div class="flex flex-col gap-5 justify-center items-start mx-56 py-16">
+  <ng-container *ngIf="bookData?.book as book ; else failureOrLoading">
+    <div class="flex  gap-10 items-start justify-start h-full">
+      <img class="w-2/6" [src]="book.cover" alt="bookCover "/>
+      <div class="flex flex-col gap-10 h-full">
+        <div class="flex flex-col gap-2">
+          <p class="poppins-semibold opacity-70 text-3xl">{{book.title}}</p>
+          <p class="poppins-semibold opacity-70 text-lg">By {{book.author}}</p>
+          <div class="flex gap-2 items-center">
+            <img [src]="imageSrc" class="w-5 h-5">
+            <p class="poppins-semibold opacity-70 text-lg">{{book.copies}} copies</p>
+          </div>
+        </div>
+        <p class="poppins-medium opacity-70 text-lg">Session Price : <span class="poppins-bold">{{ bookPrice }}$</span></p>
+
+        <div class="flex gap-5">
+          <button [ngClass]="{'border-2 border-black' : selectedSession === 'halfPrice'}" (click)="setBookPrice('half')" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">30 Min</button>
+          <button [ngClass]="{'border-2 border-black' : selectedSession === 'onePrice'}" (click)="setBookPrice('one')" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">1 Hour</button>
+          <button [ngClass]="{'border-2 border-black' : selectedSession === 'oneHalfPrice'}" (click)="setBookPrice('oneHalf')" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">1 Hour 30 Min</button>
+        </div>
+        <button [disabled]="bookData.sessionCheck" (click)="handleSessionPayment(book , bookPrice , selectedSession)" class=" bg-amber-500 rounded-lg text-white text-lg self-center poppins-semibold px-2 py-2 ">Buy Session</button>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #failureOrLoading>
+     <ng-container *ngIf="errorMessage ; else loading">
+       <p class="poppins-semibold text-xl self-center">{{errorMessage}}</p>
+     </ng-container>
+    <ng-template #loading>
+      <span class="loading loading-spinner loading-lg self-center bg-amber-500"></span>
+    </ng-template>
+  </ng-template>
+</div>
+
+

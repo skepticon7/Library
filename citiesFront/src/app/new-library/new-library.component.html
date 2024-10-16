@@ -1,0 +1,21 @@
+<app-navbar></app-navbar>
+<div class="mx-56 py-10 flex flex-col">
+  <h2 class="poppins-bold text-2xl">New Library</h2>
+  <form (ngSubmit)="handleNewLibrary()" [formGroup]="newLibraryForm" class="flex flex-col gap-2 max-w-60 self-center">
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="Library name" type="text" formControlName="name">
+      <span *ngIf="newLibraryForm.get('name')?.invalid && newLibraryForm.get('name')?.touched" class="text-red-600 text-sm poppins-medium" >name is empty</span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="Visitors capacity" type="text" formControlName="visitorsCapacity">
+      <span *ngIf="newLibraryForm.get('visitorsCapacity')?.invalid && newLibraryForm.get('visitorsCapacity')?.touched" class="text-red-600 text-sm poppins-medium" >visitors capacity is empty</span>
+    </div>
+    <div class="flex flex-col gap-1">
+      <input class="rounded-md border-2 border-black px-2 py-2 text-sm border-opacity-70" type="number" min="1" placeholder="Shelves capacity"  formControlName="shelvesCapacity">
+      <span *ngIf="newLibraryForm.get('shelvesCapacity')?.invalid && newLibraryForm.get('shelvesCapacity')?.touched" class="text-red-600 text-sm poppins-medium" >shelves capacity is empty</span>
+    </div>
+    <button [disabled]="newLibraryForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2">Save</button>
+  </form>
+</div>
+
+
