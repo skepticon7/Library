@@ -11,7 +11,6 @@ public class BookDtoMapper {
         bookDTO.setAuthor(book.getAuthor());
         bookDTO.setYear(book.getYear());
         bookDTO.setCategory(book.getCategory());
-        bookDTO.setCopies(book.getCopies());
         bookDTO.setDescription(book.getDescription());
         bookDTO.setPublisher(book.getPublisher());
         bookDTO.setPages(book.getPages());
@@ -33,7 +32,6 @@ public class BookDtoMapper {
         book.setCategory(bookDTO.getCategory());
         book.setDescription(bookDTO.getDescription());
         book.setPublisher(bookDTO.getPublisher());
-        book.setCopies(bookDTO.getCopies());
         book.setPages(bookDTO.getPages());
         book.setCover(bookDTO.getCover());
         book.setEra(bookDTO.getEra());

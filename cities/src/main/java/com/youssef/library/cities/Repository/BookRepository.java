@@ -11,8 +11,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("SELECT SUM(b.copies) FROM Book b WHERE b.shelf.id = :shelfId")
-    Integer findOccupiedBooksNumber(@Param("shelfId") String shelfId);
 
     @Query("SELECT b FROM Book b WHERE b.id = :id")
     Book findBookById(@Param("id") String id);

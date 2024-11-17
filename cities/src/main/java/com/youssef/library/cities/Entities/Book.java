@@ -31,7 +31,6 @@ public class Book {
     private String description;
     private int year;
     private int pages;
-    private int copies = 0;
     private String cover;
     @Enumerated(EnumType.STRING)
     private Era era;

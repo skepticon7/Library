@@ -7,4 +7,6 @@ import java.util.List;
 public interface SessionService {
     Session saveSession(Session session , String bookId , String visitorId);
     List<Session> getSessions(String visitorId);
+
+    Session getSession(String sessionId);
 }

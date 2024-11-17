@@ -32,5 +32,5 @@ public class Session {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @JoinColumn(name = "visitor_id")
     private Visitor visitor;
-    private Long currentPage;
+    private Long currentPage = 0L;
 }

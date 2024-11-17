@@ -29,4 +29,10 @@ public class SessionController {
                 .collect(Collectors.toList());
         return new ResponseEntity<>(mappedVisitorSessions , HttpStatus.OK);
     }
+
+    @GetMapping("/getSession")
+    public ResponseEntity<SessionDTO> getSession(@RequestParam("sessionId") String sessionId){
+        Session visitorSession = sessionService.getSession(sessionId);
+        return new ResponseEntity<>(SessionDtoMapper.toDto(visitorSession), HttpStatus.OK);
+    }
 }

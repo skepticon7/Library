@@ -47,9 +47,8 @@ export class NewBookComponent implements OnInit{
             era: ['CE', Validators.required]
           }, { validators: yearRangeValidator() }),
           pages : new FormControl('',[Validators.required]),
-          copies : new FormControl('',[Validators.required]),
           cover : new FormControl('',[Validators.required]),
-          pdf : new FormControl('',[Validators.required]),
+          pdfFile : new FormControl('',[Validators.required]),
           price : this.fb.group({
             halfPrice : new FormControl(null,[Validators.required]),
             onePrice : new FormControl(null,[Validators.required]),
@@ -70,15 +69,25 @@ export class NewBookComponent implements OnInit{
     if(signature){
       signature.subscribe(async ({signature, timestamp}) => {
         try {
-          let [imageResponse, fileResponse] = await Promise.all([this.imageService.uploadImage(this.selectedImage, signature, timestamp) , this.imageService.uploadFile(this.selectedFile, signature, timestamp)]);
-          imageResponse.subscribe(response => {
-            console.log("image : " + response.secure_url);
-            newBookFormData.cover = response.secure_url;
-          })
-          fileResponse.subscribe(response => {
-            console.log("pdf file : " + response.secure_url);
-            newBookFormData.pdf = response.secure_url;
-          })
+          let imageResponsePromise = this.imageService.uploadImage(this.selectedImage, signature, timestamp).toPromise();
+          let fileResponsePromise = this.imageService.uploadFile(this.selectedFile, signature, timestamp).toPromise();
+
+          // Await both promises to complete
+          let [imageResponse, fileResponse] = await Promise.all([imageResponsePromise, fileResponsePromise]);
+
+          // Set the URLs for the cover and PDF after successful uploads
+          newBookFormData.cover = imageResponse.secure_url;
+          newBookFormData.pdfFile = fileResponse.secure_url;
+            this.bookService.saveBook(this.shelfId , newBookFormData).pipe(
+              catchError(err => {
+                console.log("error saving book : " + err.message);
+                this.toaster.error("error saving book");
+                return throwError(()=>new Error(err));
+              })
+            ).subscribe(data =>{
+              console.log("data is : " + JSON.stringify(data));
+            });
+
         }catch (err){
           console.log("error fetching files to cloud" , err);
           throw new Error("error fetching files to cloud");

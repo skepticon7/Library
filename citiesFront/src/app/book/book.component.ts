@@ -34,7 +34,6 @@ export class BookComponent implements OnInit{
     errorMessage !: string;
     bookPrice!: number;
     selectedSession : string = 'halfPrice';
-    imageSrc !: string;
 
     constructor(private toaster : HotToastService,private route : ActivatedRoute , private router : Router , private bookService : BookService , private stripeService : StripeService) {}
 
@@ -59,10 +58,6 @@ export class BookComponent implements OnInit{
       ).subscribe(data => {
         this.bookData = data;
         this.bookPrice = data.book.halfPrice;
-        if(data.book.copies > 0)
-          this.imageSrc = "round2.png";
-        else
-          this.imageSrc = "round.png";
       })
     }
 
@@ -84,7 +79,7 @@ export class BookComponent implements OnInit{
   handleSessionPayment(book : book ,price : number , sessionType : string){
       const payment = {
         amount : price*100,
-        customer : "06832314-909f-47b9-806a-521922c79eb7",
+        customer : "14e14bb2-56eb-47f3-85ce-d0a29e3a7e9d",
         book : book,
         successUrl : 'http://localhost:4200/success',
         cancelUrl : 'http://localhost:4200/cancel',

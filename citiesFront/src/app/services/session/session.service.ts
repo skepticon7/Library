@@ -15,4 +15,9 @@ export class SessionService {
     return this.http.get<Array<Session>>(`${environment.BackendServer}/session/getVisitorSessions`,{params})
   }
 
+  getSession(sessionId : string) {
+    let params = new HttpParams().append("sessionId",sessionId);
+    return this.http.get<Session>(`${environment.BackendServer}/session/getSession`,{params});
+  }
+
 }

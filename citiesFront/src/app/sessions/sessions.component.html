@@ -27,9 +27,9 @@
               <ng-container *ngIf="s.remainingTime.hours && s.remainingTime.hours !== 0">{{s.remainingTime.hours}} Hours </ng-container>
               <ng-container *ngIf="s.remainingTime.minutes && s.remainingTime.minutes !== 0">{{s.remainingTime.minutes}} Minutes</ng-container>
             </td>
-            <td class="px-2 py-2 text-black poppins-medium text-md">{{s.currentPage}}$</td>
+            <td class="px-2 py-2 text-black poppins-medium text-md">{{s.currentPage}}</td>
             <td class="px-2 py-2 text-black poppins-medium text-md">
-              <button class="px-3 py-1 rounded-md text-white"  [disabled]="s.sessionStatus === 'Finished'" [ngClass]="{'bg-green-500' : s.sessionStatus === 'Active' , 'bg-red-500' : s.sessionStatus === 'Finished' , 'rounded-' : session.length - 1 === i}" routerLink="/pdfBook">{{s.sessionStatus}}</button>
+              <button class="px-3 py-1 rounded-md text-white"  [disabled]="s.sessionStatus === 'Finished'" [ngClass]="{'bg-green-500' : s.sessionStatus === 'Active' , 'bg-red-500' : s.sessionStatus === 'Finished' , 'rounded-' : session.length - 1 === i}" routerLink="/pdfBook" [queryParams]="{sessionId : s.id}">{{s.sessionStatus}}</button>
             </td>
           </tr>
           </tbody>

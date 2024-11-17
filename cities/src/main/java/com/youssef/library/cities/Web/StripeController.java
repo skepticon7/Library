@@ -51,6 +51,12 @@ public class StripeController {
                                                     .build()
                                     )
                                     .build()
+                    ).setPaymentIntentData(
+                            SessionCreateParams.PaymentIntentData.builder()
+                                    .putMetadata("customer_id", paymentDetails.getCustomer())
+                                    .putMetadata("sessionType", String.valueOf(paymentDetails.getSessionType()))
+                                    .putMetadata("book_id", paymentDetails.getBook().getId())
+                                    .build()
                     )
                     .build();
             Session session = Session.create(params);

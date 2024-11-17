@@ -28,8 +28,6 @@ public class BookDTO {
     private int pages;
     private Era era;
     private int year;
-    @Min(1)
-    private int copies;
     private String cover;
     private int halfPrice;
     private int onePrice;

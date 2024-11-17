@@ -44,4 +44,9 @@ public class SessionServiceImplementation implements SessionService {
     public List<Session> getSessions(String visitorId) {
         return sessionRepository.findSessionsByUser(visitorId);
     }
+
+    @Override
+    public Session getSession(String sessionId) {
+        return sessionRepository.findSessionById(sessionId);
+    }
 }

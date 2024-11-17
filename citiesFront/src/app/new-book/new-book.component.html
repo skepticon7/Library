@@ -38,10 +38,6 @@
               {{ newBookForm.get('yearEra')?.errors?.['yearRange'] }}
         </span>
       </div>
-      <div class="flex flex-col gap-1">
-        <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" placeholder="Book copies" type="number" formControlName="copies">
-        <span class="text-red-600 text-sm poppins-medium" *ngIf="newBookForm.get('copies')?.invalid && newBookForm.get('copies')?.touched">copies is empty</span>
-      </div>
     <div class="flex flex-col gap-3" formGroupName="price">
       <label class="poppins-semibold">session pricing :</label>
       <div class="flex gap-2 w-full">
@@ -63,8 +59,8 @@
     <div class="flex flex-col gap-3">
       <label class="poppins-semibold">book pdf :</label>
       <div class="flex flex-col gap-1">
-        <input class="rounded-md border-2 border-black px-2 py-1 text-sm border-opacity-70" accept="/application/pdf/*" (change)="handleFileChange($event)" type="file"  formControlName="pdf">
-        <span class="text-red-600 text-sm poppins-medium" *ngIf="newBookForm.get('pdf')?.invalid && newBookForm.get('pdf')?.touched">pdf is empty</span>
+        <input class="rounded-md border-2 border-black px-2 py-1 text-sm border-opacity-70" accept="/application/pdf/*" (change)="handleFileChange($event)" type="file"  formControlName="pdfFile">
+        <span class="text-red-600 text-sm poppins-medium" *ngIf="newBookForm.get('pdfFile')?.invalid && newBookForm.get('pdfFile')?.touched">pdf is empty</span>
       </div>
     </div>
     <button [disabled]="newBookForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2">Save</button>

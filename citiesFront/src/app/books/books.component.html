@@ -33,7 +33,6 @@
             <div *ngFor="let b of booksData" class="flex flex-col items-center justify-between gap-3 border-2 border-black border-opacity-70 rounded-lg max-w-64 p-2">
               <img class="w-32" [src]="b.cover"  alt="categoryImage">
               <h3 class="poppins-medium text-md text-center">title : {{b.title}} </h3>
-              <p class="poppins-medium text-md">copies : {{b.copies}}</p>
               <button class="bg-amber-500 rounded-lg text-white text-sm self-center poppins-semibold px-2 py-1 " routerLink="/book"  [queryParams]="{bookId : b.id , shelfId : shelfId}">More</button>
             </div>
           </div>

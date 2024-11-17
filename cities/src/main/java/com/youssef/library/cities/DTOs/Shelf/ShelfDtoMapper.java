@@ -11,7 +11,7 @@ public class ShelfDtoMapper {
         shelfDTO.setCategory(shelf.getCategory());
         shelfDTO.setShelfNumber(shelf.getShelfNumber());
         shelfDTO.setBooksCapacity(shelf.getBooksCapacity());
-        int totalBooks = shelf.getBooksInShelf().stream().mapToInt(Book::getCopies).sum();
+        int totalBooks = shelf.getBooksInShelf().size();
         shelfDTO.setCurrentBooks(totalBooks);
         return shelfDTO;
     }

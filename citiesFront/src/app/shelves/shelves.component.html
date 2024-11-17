@@ -32,8 +32,7 @@
            <div class="grid grid-cols-4 w-full gap-x-5 gap-y-5">
              <div *ngFor="let s of shelvesData" class="flex flex-col items-center justify-between gap-3 border-2 border-black border-opacity-70 rounded-lg max-w-64 p-2">
                <img class="w-20" [src]="categoryImageLinkGenerator(s.category)" alt="categoryImage">
-               <h3 class="poppins-semibold text-xl ">{{s.category}} Shelf</h3>
-               <h3 class="poppins-medium text-md ">Shelf number : {{s.shelfNumber}} </h3>
+               <h3 class="poppins-semibold text-xl ">{{s.category}} Shelf {{s.shelfNumber}}</h3>
                <p class="poppins-medium text-md">Books Capacity : {{s.booksCapacity}}</p>
                <p class="poppins-medium text-md ">current books : {{s.currentBooks}}</p>
                <button class="bg-amber-500 rounded-lg text-white text-sm self-center poppins-semibold px-2 py-1 " routerLink="/books"  [queryParams]="{shelfId : s.id}">check books</button>
