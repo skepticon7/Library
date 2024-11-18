@@ -55,10 +55,10 @@ public class StripeWebhookController {
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setOriginalTime(sessionDTO.getSessionType().equals(SessionType.half) ?
-                                Duration.ofMinutes(30L) :
+                                Duration.ofMinutes(30L).plusSeconds(0L) :
                                 sessionDTO.getSessionType().equals(SessionType.one) ?
-                                        Duration.ofHours(1L) :
-                                        Duration.ofHours(1).plusMinutes(30L));
+                                        Duration.ofHours(1L).plusMinutes(0L).plusSeconds(0L) :
+                                        Duration.ofHours(1).plusMinutes(30L).plusSeconds(0L));
                         sessionDTO.setRemainingTime(sessionDTO.getOriginalTime());
 //                        messagingTemplate.convertAndSend("/topic/paymentStatus","paymentSuccessful");
 //                        sessionService.saveSession(SessionDtoMapper.toEntity(sessionDTO),bookId,customerId);
