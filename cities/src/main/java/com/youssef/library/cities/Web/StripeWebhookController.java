@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class StripeWebhookController {
 
     private static final Logger log = LoggerFactory.getLogger(StripeWebhookController.class);
-//    private SessionService sessionService;
+    private SessionService sessionService;
 //    private final SimpMessagingTemplate messagingTemplate;
 
     private static final String WebHook_Secret = "whsec_IJBhIrA3R5MPCzuSAgbiWCnMavyUPmuS";
@@ -35,7 +35,6 @@ public class StripeWebhookController {
             try{
                 String endpoint_key = WebHook_Secret;
                 Event event = Webhook.constructEvent(payload,sigHeader,endpoint_key);
-                String outcome;
                 switch (event.getType()){
                     case "payment_intent.succeeded":
                         PaymentIntent paymentIntent = (PaymentIntent) event.getData().getObject();
@@ -45,23 +44,21 @@ public class StripeWebhookController {
                         String sessionTypeStr = paymentIntent.getMetadata().get("sessionType");
                         String bookId = paymentIntent.getMetadata().get("book_id");
                         long amount = paymentIntent.getAmount();
-                        System.out.println("customer Id : " + customerId);
-                        System.out.println("session type : " + sessionTypeStr);
-                        System.out.println("book Id : " + bookId);
-                        System.out.println("amount : " + amount);
                         SessionDTO sessionDTO = new SessionDTO();
                         sessionDTO.setPrice(amount / 100); // Amount in dollars
                         SessionType sessionType = sessionTypeStr.equals("halfPrice") ? SessionType.half : sessionTypeStr.equals("onePrice") ? SessionType.one : SessionType.oneHalf;
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setSessionType(sessionType);
-                        sessionDTO.setOriginalTime(sessionDTO.getSessionType().equals(SessionType.half) ?
-                                Duration.ofMinutes(30L).plusSeconds(0L) :
-                                sessionDTO.getSessionType().equals(SessionType.one) ?
-                                        Duration.ofHours(1L).plusMinutes(0L).plusSeconds(0L) :
-                                        Duration.ofHours(1).plusMinutes(30L).plusSeconds(0L));
+                        sessionDTO.setOriginalTime(Duration.ofHours(0L).plusMinutes(0L).plusSeconds(15L));
+                        System.out.println("original time is : " + sessionDTO.getOriginalTime());
+                        //                        sessionDTO.setOriginalTime(sessionDTO.getSessionType().equals(SessionType.half) ?
+//                                Duration.ofMinutes(30L).plusSeconds(0L) :
+//                                sessionDTO.getSessionType().equals(SessionType.one) ?
+//                                        Duration.ofHours(1L).plusMinutes(0L).plusSeconds(0L) :
+//                                        Duration.ofHours(1).plusMinutes(30L).plusSeconds(0L));
                         sessionDTO.setRemainingTime(sessionDTO.getOriginalTime());
 //                        messagingTemplate.convertAndSend("/topic/paymentStatus","paymentSuccessful");
-//                        sessionService.saveSession(SessionDtoMapper.toEntity(sessionDTO),bookId,customerId);
+                        sessionService.saveSession(SessionDtoMapper.toEntity(sessionDTO),bookId,customerId);
                         return ResponseEntity.ok("Success");
                     default:
                         throw new IllegalStateException("Unexpected value: " + event.getType());

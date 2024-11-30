@@ -3,11 +3,12 @@ import {NavbarComponent} from "../navbar/navbar.component";
 import {PdfViewerModule} from "ng2-pdf-viewer";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SessionService} from "../services/session/session.service";
-import {catchError, Subscription, throwError, TimeInterval} from "rxjs";
+import {catchError, min, Subscription, throwError, TimeInterval} from "rxjs";
 import {WebSocketService} from "../services/webSocket/web-socket.service";
 import {Duration, parse} from "tinyduration";
 import {clearInterval} from "stompjs";
 import humanizeDuration from "humanize-duration";
+import {HotToastService} from "@ngxpert/hot-toast";
 
 @Component({
   selector: 'app-pdf-page',
@@ -29,8 +30,9 @@ export class PdfPageComponent implements OnInit{
    visitorId !: string;
    remainingTime !: number;
    private timerInterval : any;
+   private connectionStatusSubscription !: Subscription;
 
-  constructor(private webSocket : WebSocketService,private route : ActivatedRoute , private router : Router , private sessionService : SessionService ) {}
+  constructor(private toast : HotToastService ,private webSocket : WebSocketService,private route : ActivatedRoute , private router : Router , private sessionService : SessionService ) {}
 
   async ngOnInit(): Promise<void> {
     try {
@@ -38,7 +40,9 @@ export class PdfPageComponent implements OnInit{
       window.onbeforeunload = (event) => {
         if (this.webSocket.isConnected()) {
           this.updateSession("offload");
+          localStorage.removeItem("sessionData");
         }
+        this.stopTimer();
         return null;
       };
       this.route.queryParams.subscribe(param => {
@@ -46,16 +50,52 @@ export class PdfPageComponent implements OnInit{
         this.visitorId = param["visitorId"];
         this.fetchSession();
       });
+
+      this.connectionStatusSubscription = this.webSocket.connectionStatus().subscribe((status)=>{
+        if(!status){
+          this.stopTimer();
+          this.saveSessionDataToLocalStorage();
+          this.webSocket.handleReconnect();
+        }else if(status){
+          const remainingSession = this.getSessionDataFromLocalStorage();
+          console.log(remainingSession);
+          if(remainingSession){
+            this.toast.success("connection back",{position : 'top-right'});
+            this.sessionId = remainingSession.sessionId;
+            this.remainingTime = remainingSession.remainingTime;
+            this.startTimer();
+          }
+        }
+      });
     } catch (error) {
       console.error('WebSocket connection failed:', error);
     }
   }
 
 
+  private saveSessionDataToLocalStorage() {
+      const sessionData = {
+        sessionId : this.sessionId,
+        remainingTime : this.remainingTime
+      }
+      localStorage.setItem("sessionData",JSON.stringify(sessionData));
+  }
+
+  private getSessionDataFromLocalStorage() : {sessionId : string , remainingTime : number} | null {
+      const sessionData = localStorage.getItem("sessionData");
+      if(sessionData) return JSON.parse(sessionData);
+      return null;
+  }
+
 
   ngOnDestroy(): void {
     this.updateSession("destroy");
+    this.stopTimer();
     this.webSocket.disconnect();
+    if (this.connectionStatusSubscription) {
+      this.connectionStatusSubscription.unsubscribe();
+    }
+    localStorage.removeItem("sessionData");
   }
 
 
@@ -74,11 +114,13 @@ export class PdfPageComponent implements OnInit{
 
 
   nextPage(){
-    this.currentPage++;
+    if(this.webSocket.isConnected())
+      this.currentPage++;
   }
 
   previousPage(){
-    this.currentPage--;
+    if(this.webSocket.isConnected())
+      this.currentPage--;
   }
 
   private fetchSession() {
@@ -90,26 +132,31 @@ export class PdfPageComponent implements OnInit{
     ).subscribe(response => {
       this.pdfSource = response.book.pdfFile;
       this.currentPage = response.currentPage;
+      console.log(response.remainingTime);
+      console.log(parse(response.remainingTime.toString()));
       this.remainingTime = this.convertToSeconds(parse(response.remainingTime.toString()));
-      console.log(this.remainingTime);
       if(this.webSocket.isConnected()){
         this.startNewSession(response.id);
       }
-      // this.startTimer();
+      this.startTimer();
     })
   }
 
+  private stopTimer(){
+    clearTimeout(this.timerInterval);
+  }
+
   private startTimer() {
-    if(this.timerInterval) {
-      clearInterval(this.timerInterval);
-    }
 
     this.timerInterval = setInterval (() => {
       if(this.remainingTime <= 0){
-        alert("time is up lil bro");
-        this.updateSession("update1234");
+        this.toast.warning("session is over",{position : 'top-right'});
+        this.stopSession("fdfdfd45");
         this.webSocket.disconnect();
+        this.connectionStatusSubscription.unsubscribe();
+        this.remainingTime = 0;
         clearInterval(this.timerInterval);
+        localStorage.removeItem("sessionData");
       }
       this.decreaseRemainingTime();
     } , 1000);
@@ -121,10 +168,6 @@ export class PdfPageComponent implements OnInit{
     if (remainingSeconds > 0) {
       const newTotalSeconds = remainingSeconds - 1;
       this.remainingTime = newTotalSeconds;
-      console.log(this.formatedRemainingTime());
-    } else {
-      // If total seconds is zero or less, set to zero
-      this.remainingTime = 0;
     }
   }
 
@@ -138,9 +181,17 @@ export class PdfPageComponent implements OnInit{
   }
 
   private convertToSeconds(duration: Duration) : number{
-    return (<number>duration.hours * 3600) + (<number>duration.minutes * 60) + (<number>duration.minutes);
+    const hours = duration.hours ?? 0;
+    const minutes = duration.minutes ?? 0;
+    const seconds = duration.seconds ?? 0;
+    return (hours * 3600) + (minutes * 60) + (seconds);
   }
 
-
+  public convertToHumanReadableTime(){
+    const hours = Math.floor(this.remainingTime / 3600);
+    const minutes = Math.floor((this.remainingTime % 3600) / 60);
+    const seconds = this.remainingTime % 60;
+    return {hours , minutes , seconds};
+  }
 
 }

@@ -30,12 +30,6 @@ public class SessionServiceImplementation implements SessionService {
         Book book = bookRepository.findBookById(bookId);
         session.setVisitor(visitor);
         session.setBook(book);
-        session.setOriginalTime(session.getSessionType().equals(SessionType.half) ?
-                Duration.ofMinutes(30L) :
-                session.getSessionType().equals(SessionType.one) ?
-                Duration.ofHours(1L) :
-                Duration.ofHours(1).plusMinutes(30L));
-        session.setRemainingTime(session.getOriginalTime());
         session.setSessionStatus(SessionStatus.Active);
         return sessionRepository.save(session);
     }

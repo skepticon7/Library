@@ -1,10 +1,15 @@
 <app-navbar></app-navbar>
 <div class="flex flex-col gap-5 justify-center items-start mx-56 py-5">
-  <div class="flex self-start border-2 border-black rounded-lg">
-    <pdf-viewer [fit-to-page]="true" [(page)]="currentPage"  [show-all]="false"  [original-size]="false" [src]="pdfSource" style="height:700px; width: 500px;">
+  <div class="flex justify-between w-full">
+    <div class="flex self-start border-2 border-black rounded-lg">
+      <pdf-viewer [fit-to-page]="true" [(page)]="currentPage"  [show-all]="false"  [original-size]="false" [src]="pdfSource" style="height:700px; width: 500px;">
 
-    </pdf-viewer>
-    <button class="bg-amber-500 px-2 py-1 text-sm poppins-semibold rounded-md self-end" (click)="previousPage()">Previous</button>
-    <button class="self-end bg-amber-500 px-2 py-1 text-sm poppins-semibold rounded-md" (click)="nextPage()">Next</button>
+      </pdf-viewer>
+      <button class="bg-amber-500 px-2 py-1 text-sm poppins-semibold rounded-md self-end" (click)="previousPage()">Previous</button>
+      <button class="self-end bg-amber-500 px-2 py-1 text-sm poppins-semibold rounded-md" (click)="nextPage()">Next</button>
+    </div>
+    <div>
+      <h1>{{convertToHumanReadableTime().hours}} : {{convertToHumanReadableTime().minutes}} : {{convertToHumanReadableTime().seconds}}</h1>
+    </div>
   </div>
 </div>
