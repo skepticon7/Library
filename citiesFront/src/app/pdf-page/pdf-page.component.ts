@@ -89,13 +89,14 @@ export class PdfPageComponent implements OnInit{
 
 
   ngOnDestroy(): void {
-    this.updateSession("destroy");
-    this.stopTimer();
-    this.webSocket.disconnect();
-    if (this.connectionStatusSubscription) {
+    if (this.connectionStatusSubscription && this.webSocket.isConnected()) {
       this.connectionStatusSubscription.unsubscribe();
+      this.updateSession("destroy");
+      this.stopTimer();
+      this.webSocket.disconnect();
+      localStorage.removeItem("sessionData");
     }
-    localStorage.removeItem("sessionData");
+
   }
 
 
