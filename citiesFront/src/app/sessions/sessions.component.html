@@ -22,14 +22,16 @@
             <td class="px-2 py-2 text-black poppins-medium text-md">
               <ng-container *ngIf="s.originalTime.hours && s.originalTime.hours !== 0">{{s.originalTime.hours}} Hours </ng-container>
               <ng-container *ngIf="s.originalTime.minutes && s.originalTime.minutes !== 0">{{s.originalTime.minutes}} Minutes</ng-container>
+              <ng-container *ngIf="s.originalTime.seconds && s.originalTime.seconds !== 0">{{s.originalTime.seconds}} seconds</ng-container>
             </td>
             <td class="px-2 py-2 text-black poppins-medium text-md">
               <ng-container *ngIf="s.remainingTime.hours && s.remainingTime.hours !== 0">{{s.remainingTime.hours}} Hours </ng-container>
               <ng-container *ngIf="s.remainingTime.minutes && s.remainingTime.minutes !== 0">{{s.remainingTime.minutes}} Minutes</ng-container>
+              <ng-container *ngIf="s.remainingTime.seconds && s.remainingTime.seconds !== 0">{{s.remainingTime.seconds}} seconds</ng-container>
             </td>
             <td class="px-2 py-2 text-black poppins-medium text-md">{{s.currentPage}}</td>
             <td class="px-2 py-2 text-black poppins-medium text-md">
-              <button class="px-3 py-1 rounded-md text-white"  [disabled]="s.sessionStatus === 'Finished'" [ngClass]="{'bg-green-500' : s.sessionStatus === 'Active' , 'bg-red-500' : s.sessionStatus === 'Finished' , 'rounded-' : session.length - 1 === i}" routerLink="/pdfBook" [queryParams]="{sessionId : s.id}">{{s.sessionStatus}}</button>
+              <button class="px-3 py-1 rounded-md text-white"  [disabled]="s.sessionStatus === 'Finished'" [ngClass]="{'bg-green-500' : s.sessionStatus === 'Active' , 'bg-red-500' : s.sessionStatus === 'Finished' , 'rounded-' : session.length - 1 === i}" routerLink="/pdfBook" [queryParams]="{sessionId : s.id , visitorId : visitorId}">{{s.sessionStatus}}</button>
             </td>
           </tr>
           </tbody>

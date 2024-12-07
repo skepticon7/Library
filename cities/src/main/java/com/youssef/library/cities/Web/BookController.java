@@ -94,7 +94,7 @@ public class BookController {
         boolean sessionCheck = bookService.hasSameBookSession(visitorId,bookId);
         HashMap<String, Object> response = new HashMap<>();
         response.put("book", BookDtoMapper.toDto(specificBook));
-        response.put("sessionCheck", Optional.of(sessionCheck));
+        response.put("sessionCheck", sessionCheck);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

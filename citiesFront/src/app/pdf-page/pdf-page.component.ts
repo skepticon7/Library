@@ -22,7 +22,6 @@ import {HotToastService} from "@ngxpert/hot-toast";
 })
 export class PdfPageComponent implements OnInit{
 
-  // pdfSource : string = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
    sessionId !: string;
    pdfSource !: string;
    currentPage !: number;
@@ -39,7 +38,7 @@ export class PdfPageComponent implements OnInit{
       await this.webSocket.connect();
       window.onbeforeunload = (event) => {
         if (this.webSocket.isConnected()) {
-          this.updateSession("offload");
+          this.updateSession(this.sessionId);
           localStorage.removeItem("sessionData");
         }
         this.stopTimer();
@@ -58,7 +57,6 @@ export class PdfPageComponent implements OnInit{
           this.webSocket.handleReconnect();
         }else if(status){
           const remainingSession = this.getSessionDataFromLocalStorage();
-          console.log(remainingSession);
           if(remainingSession){
             this.toast.success("connection back",{position : 'top-right'});
             this.sessionId = remainingSession.sessionId;
@@ -91,7 +89,7 @@ export class PdfPageComponent implements OnInit{
   ngOnDestroy(): void {
     if (this.connectionStatusSubscription && this.webSocket.isConnected()) {
       this.connectionStatusSubscription.unsubscribe();
-      this.updateSession("destroy");
+      this.updateSession(this.sessionId);
       this.stopTimer();
       this.webSocket.disconnect();
       localStorage.removeItem("sessionData");
@@ -102,15 +100,15 @@ export class PdfPageComponent implements OnInit{
 
 
   public startNewSession(sessionId : string) {
-    this.webSocket.startSession(sessionId);
+    this.webSocket.startSession(sessionId , this.remainingTime , this.visitorId , this.currentPage);
   }
 
   public updateSession(sessionId : string){
-    this.webSocket.updateSession(sessionId);
+    this.webSocket.updateSession(sessionId , this.remainingTime , this.visitorId , this.currentPage);
   }
 
   public stopSession(sessionId : string) {
-    this.webSocket.stopSession(sessionId);
+    this.webSocket.stopSession(sessionId , this.visitorId , this.currentPage);
   }
 
 
@@ -133,8 +131,6 @@ export class PdfPageComponent implements OnInit{
     ).subscribe(response => {
       this.pdfSource = response.book.pdfFile;
       this.currentPage = response.currentPage;
-      console.log(response.remainingTime);
-      console.log(parse(response.remainingTime.toString()));
       this.remainingTime = this.convertToSeconds(parse(response.remainingTime.toString()));
       if(this.webSocket.isConnected()){
         this.startNewSession(response.id);
@@ -152,7 +148,7 @@ export class PdfPageComponent implements OnInit{
     this.timerInterval = setInterval (() => {
       if(this.remainingTime <= 0){
         this.toast.warning("session is over",{position : 'top-right'});
-        this.stopSession("fdfdfd45");
+        this.stopSession(this.sessionId);
         this.webSocket.disconnect();
         this.connectionStatusSubscription.unsubscribe();
         this.remainingTime = 0;

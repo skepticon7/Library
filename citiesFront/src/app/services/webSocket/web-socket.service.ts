@@ -13,7 +13,6 @@ import {HotToastService} from "@ngxpert/hot-toast";
 })
 export class WebSocketService{
   private stompClient : any;
-  private sessionId !: string;
   private reconnectAttempts: number = 0;
   private maxReconnectAttempts: number = 5;
   private reconnectDelay: number = 5000;
@@ -35,7 +34,6 @@ export class WebSocketService{
           resolve();
         },
         onDisconnect : () => {
-          console.log("hey");
           this.connectionStatus$.next(false);
         },
         onStompError: (frame) => {
@@ -93,17 +91,16 @@ export class WebSocketService{
     }
   }
 
-  public startSession(sessionId : string){
-    this.stompClient.publish({ destination: '/app/start', body: JSON.stringify({ sessionId })});
+  public startSession(sessionId : string , remainingTime : number , visitorId : string , currentPage : number){
+    this.stompClient.publish({ destination: '/app/start', body: JSON.stringify({ sessionId , remainingTime , visitorId , currentPage})});
   }
 
-  public stopSession(sessionId: string) {
-    this.stompClient.publish({destination : '/app/stop' , body : JSON.stringify({sessionId})});
+  public stopSession(sessionId: string , visitorId : string , currentPage : number) {
+    this.stompClient.publish({destination : '/app/stop' , body : JSON.stringify({sessionId , visitorId , currentPage})});
   }
 
-  public updateSession(sessionId: string) {
-    this.stompClient.publish({destination : '/app/update' , body : JSON.stringify({sessionId})});
+  public updateSession(sessionId: string , remainingTime : number , visitorId : string , currentPage : number) {
+    this.stompClient.publish({destination : '/app/update' , body : JSON.stringify({sessionId , remainingTime , visitorId , currentPage})});
   }
-
 
 }

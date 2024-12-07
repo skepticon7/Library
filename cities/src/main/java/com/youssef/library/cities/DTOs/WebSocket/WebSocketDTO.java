@@ -7,5 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WebSocketDTO {
     private String sessionId;
+    private String visitorId;
     private long remainingTime;
+    private long currentPage;
 }

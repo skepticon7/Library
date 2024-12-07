@@ -3,9 +3,9 @@ package com.youssef.library.cities.Web;
 import com.stripe.model.Event;
 import com.stripe.model.PaymentIntent;
 import com.stripe.net.Webhook;
-import com.stripe.model.checkout.Session;
 import com.youssef.library.cities.DTOs.Session.SessionDTO;
 import com.youssef.library.cities.DTOs.Session.SessionDtoMapper;
+import com.youssef.library.cities.Entities.Session;
 import com.youssef.library.cities.Enums.SessionType;
 import com.youssef.library.cities.Service.Session.SessionService;
 import lombok.AllArgsConstructor;
@@ -50,14 +50,17 @@ public class StripeWebhookController {
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setOriginalTime(Duration.ofHours(0L).plusMinutes(0L).plusSeconds(15L));
-                        System.out.println("original time is : " + sessionDTO.getOriginalTime());
+                        Session previousSession = sessionService.getSessionByBook(bookId ,customerId);
+                        if(previousSession != null)
+                            sessionDTO.setCurrentPage(previousSession.getCurrentPage());
+                        else
+                            sessionDTO.setCurrentPage(0L);
                         //                        sessionDTO.setOriginalTime(sessionDTO.getSessionType().equals(SessionType.half) ?
 //                                Duration.ofMinutes(30L).plusSeconds(0L) :
 //                                sessionDTO.getSessionType().equals(SessionType.one) ?
 //                                        Duration.ofHours(1L).plusMinutes(0L).plusSeconds(0L) :
 //                                        Duration.ofHours(1).plusMinutes(30L).plusSeconds(0L));
                         sessionDTO.setRemainingTime(sessionDTO.getOriginalTime());
-//                        messagingTemplate.convertAndSend("/topic/paymentStatus","paymentSuccessful");
                         sessionService.saveSession(SessionDtoMapper.toEntity(sessionDTO),bookId,customerId);
                         return ResponseEntity.ok("Success");
                     default:

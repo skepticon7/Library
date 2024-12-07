@@ -40,7 +40,17 @@ public class SessionServiceImplementation implements SessionService {
     }
 
     @Override
+    public Session updateSession(Session session) {
+        return sessionRepository.save(session);
+    }
+
+    @Override
     public Session getSession(String sessionId) {
         return sessionRepository.findSessionById(sessionId);
+    }
+
+    @Override
+    public Session getSessionByBook(String bookId , String visitorId) {
+        return sessionRepository.findSessionByBook(bookId , visitorId);
     }
 }

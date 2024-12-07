@@ -4,7 +4,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {Session} from "../models/session.model";
 import {SessionService} from "../services/session/session.service";
 import {catchError, throwError} from "rxjs";
-import {parse} from "tinyduration";
+import {Duration, parse} from "tinyduration";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
@@ -42,14 +42,17 @@ export class SessionsComponent implements OnInit{
      ).subscribe(response => {
        this.sessionData = response.map(data => ({
          ...data,
-         originalTime : parse(data.originalTime.toString()),
-         remainingTime : parse(data.remainingTime.toString())
+         originalTime : this.tinyDurationFormatter(parse(data.originalTime.toString())),
+         remainingTime : this.tinyDurationFormatter(parse(data.remainingTime.toString()))
        }))
-
      });
-
   }
 
-
+  private tinyDurationFormatter(duration : Duration){
+    const hours = duration.hours ?? 0;
+    const minutes = duration.minutes ?? 0;
+    const seconds = duration.seconds ?? 0;
+    return {hours , minutes , seconds};
+  }
 
 }

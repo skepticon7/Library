@@ -13,7 +13,7 @@ import java.time.Duration;
 @Data
 @Entity
 @AllArgsConstructor @NoArgsConstructor
-@Table(name = "SESSION", uniqueConstraints = @UniqueConstraint(columnNames = {"book_id", "visitor_id"}))
+@Table(name = "SESSION")
 public class Session {
     @Id
     private String id;

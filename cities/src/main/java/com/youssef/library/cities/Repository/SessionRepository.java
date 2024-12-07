@@ -14,5 +14,8 @@ public interface SessionRepository extends JpaRepository<Session , String> {
     @Query("SELECT s FROM Session s WHERE s.visitor.id = :visitorId ORDER BY CASE WHEN s.sessionStatus = 'Active' THEN 1 ELSE 2 END")
     List<Session> findSessionsByUser(@Param("visitorId") String visitorId);
 
+    @Query("SELECT s FROM Session s WHERE s.book.id = :bookId AND s.visitor.id = :visitorId")
+    Session findSessionByBook(@Param("bookId") String bookId , @Param("visitorId") String visitorId);
+
     Session findSessionById(String sessionId);
 }

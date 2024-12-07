@@ -80,6 +80,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("SELECT b FROM Book b WHERE b.id = :bookId AND b.shelf.id = :shelfId")
     Book findSpecificBook(String shelfId, String bookId);
 
-    @Query("SELECT CASE WHEN Count(s) > 0 THEN TRUE ELSE FALSE END FROM Session s WHERE s.visitor.id = :visitorId AND s.book.id = :bookId")
+    @Query("SELECT CASE WHEN Count(s) > 0 THEN TRUE ELSE FALSE END FROM Session s WHERE s.visitor.id = :visitorId AND s.book.id = :bookId AND s.sessionStatus = 'Active'")
     boolean hasSameBookSession(@Param("visitorId") String visitorId , @Param("bookId") String bookId);
 }
