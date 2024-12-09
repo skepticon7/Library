@@ -14,6 +14,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -35,6 +36,7 @@ public class WebSocketController {
     SessionService sessionService;
 
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @MessageMapping("/start")
     public void startReadingSession(@Payload WebSocketDTO payload ,SimpMessageHeaderAccessor headerAccessor){
 
@@ -42,6 +44,7 @@ public class WebSocketController {
         messagingTemplate.convertAndSend("/topic/session/" + headerAccessor.getSessionId() , message);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @MessageMapping("/stop")
     public void stopReadingSession(@Payload WebSocketDTO payload , SimpMessageHeaderAccessor headerAccessor){
         Session originalSession = sessionService.getSession(payload.getSessionId());
@@ -53,6 +56,7 @@ public class WebSocketController {
         messagingTemplate.convertAndSend("/topic/session/" + headerAccessor.getSessionId()  , message);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @MessageMapping("/update")
     public void updateReadingSession(@Payload WebSocketDTO payload){
         Session originalSession = sessionService.getSession(payload.getSessionId());

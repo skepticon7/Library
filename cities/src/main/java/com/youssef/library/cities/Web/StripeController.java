@@ -10,6 +10,7 @@ import com.youssef.library.cities.ExceptionHandlers.ServerErrorException;
 import com.youssef.library.cities.ExceptionHandlers.StripeCustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class StripeController {
         Stripe.apiKey = "sk_test_51Pb0Lc2KEqYcHYvzDIC7XHMHiwmX9d6xodjdB0H9KLK7TRFQcvlDKXeCxsk5dvGyXppsp661F26NNeDeWaUawqpI005519gtza";
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @PostMapping("/payment")
     public ResponseEntity<HashMap<String , String>> getCheckoutSession(@RequestBody CheckoutPayment paymentDetails){
         init();

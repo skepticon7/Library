@@ -7,6 +7,7 @@ import com.youssef.library.cities.Service.Session.SessionService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpClient;
@@ -21,6 +22,7 @@ public class SessionController {
 
     private SessionService sessionService;
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/getVisitorSessions")
     public ResponseEntity<List<SessionDTO>> getVisitorSessions(@RequestParam("visitorId") String visitorId) {
         List<Session> allVisitorSessions = sessionService.getSessions(visitorId);
@@ -30,6 +32,7 @@ public class SessionController {
         return new ResponseEntity<>(mappedVisitorSessions , HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/getSession")
     public ResponseEntity<SessionDTO> getSession(@RequestParam("sessionId") String sessionId){
         Session visitorSession = sessionService.getSession(sessionId);

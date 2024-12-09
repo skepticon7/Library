@@ -27,7 +27,6 @@ public class BookController {
 
     @PostMapping("/addBook")
     public ResponseEntity<Book> addBook(@RequestBody @Valid BookDTO book , @RequestParam("shelfId") String shelfId){
-        System.out.println("heyyy");
         Book newBook = bookService.saveBook(BookDtoMapper.toEntity(book) , shelfId);
         return new ResponseEntity<>(newBook, HttpStatus.CREATED);
     }

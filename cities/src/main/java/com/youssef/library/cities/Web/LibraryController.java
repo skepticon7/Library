@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class LibraryController {
 
     private LibraryService libraryService;
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/id")
     public ResponseEntity<List<LibraryDTO>> getAllLibrariesInCityById(@RequestParam("cityId") String cityId){
         List<Library> AllLibrariesInCity = libraryService.getLibrariesByCity(cityId);
@@ -48,6 +50,7 @@ public class LibraryController {
 //        return new ResponseEntity<>(MappedLibraries, HttpStatus.OK);
 //    }
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filteredLibraries")
     public ResponseEntity<List<LibraryDTO>> getAllLibrariesByFilter(
             @RequestParam("subName") String subName,
@@ -98,6 +101,7 @@ public class LibraryController {
 
 
 
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filterLibrariesByCity")
     public ResponseEntity<List<LibraryDTO>> getLibrariesInCityByVisitors(
             @RequestParam("cityId") String cityId ,
@@ -121,7 +125,7 @@ public class LibraryController {
     }
 
 
-
+    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN')")
     @PostMapping("/addLibrary")
     public ResponseEntity<Library> addLibrary(@RequestBody @Valid LibraryDTO libraryDTO , @RequestParam("cityId") String cityId){
             Library newLibrary = libraryService.saveLibrary(LibraryDtoMapper.toEntity(libraryDTO) , cityId);

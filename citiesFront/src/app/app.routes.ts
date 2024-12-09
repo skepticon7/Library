@@ -14,6 +14,7 @@ import {SuccessComponent} from "./success/success.component";
 import {CancelComponent} from "./cancel/cancel.component";
 import {SessionsComponent} from "./sessions/sessions.component";
 import {PdfPageComponent} from "./pdf-page/pdf-page.component";
+import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
   {path : "cities" , component : CitiesComponent},
@@ -29,5 +30,6 @@ export const routes: Routes = [
   {path : "success",component : SuccessComponent},
   {path : "cancel" , component : CancelComponent},
   {path : "sessions",component : SessionsComponent},
-  {path : "pdfBook" , component : PdfPageComponent}
+  {path : "pdfBook" , component : PdfPageComponent},
+  {path : "login" , component : LoginComponent}
 ];

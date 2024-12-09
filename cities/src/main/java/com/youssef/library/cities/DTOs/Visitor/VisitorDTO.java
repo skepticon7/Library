@@ -1,5 +1,6 @@
 package com.youssef.library.cities.DTOs.Visitor;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.youssef.library.cities.DTOs.Book.BookDTO;
 import com.youssef.library.cities.DTOs.Session.SessionDTO;
@@ -26,7 +27,6 @@ public class VisitorDTO {
     private String name;
     @NotEmpty
     private String surname;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private LocalDate birthDate;
     @NotNull
     private Gender gender;

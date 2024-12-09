@@ -1,5 +1,6 @@
 package com.youssef.library.cities.DTOs.Librarian;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.youssef.library.cities.DTOs.Library.LibraryDTO;
 import com.youssef.library.cities.Entities.Library;
 import com.youssef.library.cities.Enums.Gender;
@@ -20,7 +21,7 @@ public class LibrarianDTO {
     private String name;
     @NotEmpty
     private String surname;
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+
     private LocalDate birthDate;
     @NotNull
     private Gender gender;

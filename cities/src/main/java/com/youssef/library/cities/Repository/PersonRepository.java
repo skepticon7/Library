@@ -1,6 +1,7 @@
 package com.youssef.library.cities.Repository;
 
 import com.youssef.library.cities.Entities.Librarian;
+import com.youssef.library.cities.Entities.Library;
 import com.youssef.library.cities.Entities.Person;
 import com.youssef.library.cities.Entities.Visitor;
 import com.youssef.library.cities.Service.Visitor.VisitorService;
@@ -17,6 +18,10 @@ public interface PersonRepository extends JpaRepository<Person, String> {
 
     @Query("SELECT v FROM Visitor v WHERE v.id = :id")
     Visitor findVisitorById(@Param("id") String id);
+
+    @Query("SELECT p FROM Person p WHERE p.surname = :username")
+    Person findPersonByUsername(@Param("username") String username);
+
 
     @Query("SELECT l FROM Librarian l WHERE l.libraryForLibrarian.id = :libraryId")
     List<Librarian> findAllLibrariansInLibrary(@Param("libraryId") String libraryId);
