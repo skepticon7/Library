@@ -1,8 +1,12 @@
 package com.youssef.library.cities.Web;
 
 import com.youssef.library.cities.DTOs.Auth.LoginDTO;
+import com.youssef.library.cities.DTOs.Auth.SignupDTO.SignupDTO;
+import com.youssef.library.cities.DTOs.Auth.SignupDTO.SignupDtoMapper;
 import com.youssef.library.cities.DTOs.Librarian.LibrarianDTO;
 import com.youssef.library.cities.DTOs.Librarian.LibrarianDtoMapper;
+import com.youssef.library.cities.DTOs.Person.PersonDTO;
+import com.youssef.library.cities.DTOs.Person.PersonDtoMapper;
 import com.youssef.library.cities.DTOs.Visitor.VisitorDTO;
 import com.youssef.library.cities.DTOs.Visitor.VisitorDtoMapper;
 import com.youssef.library.cities.Entities.Librarian;
@@ -25,6 +29,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -67,16 +72,28 @@ public class SecurityController {
         return res;
     }
 
-    @PostMapping("/signup/visitor")
-    public ResponseEntity<VisitorDTO> visitorSignup(@RequestBody @Valid VisitorDTO visitor) {
-        Visitor newVisitor = visitorService.saveVisitor(VisitorDtoMapper.toEntity(visitor));
-        return new ResponseEntity<>(VisitorDtoMapper.toDto(newVisitor), HttpStatus.CREATED);
+//    @PostMapping("/signup/visitor")
+//    public ResponseEntity<VisitorDTO> visitorSignup(@RequestBody @Valid VisitorDTO visitor) {
+//        Visitor newVisitor = visitorService.saveVisitor(VisitorDtoMapper.toEntity(visitor));
+//        return new ResponseEntity<>(VisitorDtoMapper.toDto(newVisitor), HttpStatus.CREATED);
+//    }
+//
+//    @PostMapping("/signup/librarian")
+//    public ResponseEntity<LibrarianDTO> librarianSignup(@RequestBody @Valid LibrarianDTO librarian , @RequestParam("libraryId") String libraryId) {
+//        Librarian newlibrarian = librarianService.saveLibrarian(LibrarianDtoMapper.toEntity(librarian) , libraryId);
+//        return new ResponseEntity<>(LibrarianDtoMapper.toDto(newlibrarian), HttpStatus.CREATED);
+//    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<PersonDTO> signup(@RequestBody @Valid SignupDTO signupDTO , @RequestParam("libraryId") String libraryId){
+        if("visitor".equalsIgnoreCase(signupDTO.getRole())){
+            Visitor newVisitor = visitorService.saveVisitor(SignupDtoMapper.toEntityVisitor(signupDTO));
+            return new ResponseEntity<>(PersonDtoMapper.toDto(newVisitor), HttpStatus.CREATED);
+        }
+
+        Librarian newlibrarian = librarianService.saveLibrarian(SignupDtoMapper.toEntityLibrarian(signupDTO) , libraryId);
+        return new ResponseEntity<>(PersonDtoMapper.toDto(newlibrarian), HttpStatus.CREATED);
     }
 
-    @PostMapping("/signup/librarian")
-    public ResponseEntity<LibrarianDTO> librarianSignup(@RequestBody @Valid LibrarianDTO librarian , @RequestParam("libraryId") String libraryId) {
-        Librarian newlibrarian = librarianService.saveLibrarian(LibrarianDtoMapper.toEntity(librarian) , libraryId);
-        return new ResponseEntity<>(LibrarianDtoMapper.toDto(newlibrarian), HttpStatus.CREATED);
-    }
 
 }

@@ -10,6 +10,9 @@
           <label>password : </label>
           <input class="border-black border-2 px-3 py-2 rounded-md" type="password" formControlName="password">
         </div>
+        <div class="flex flex-col gap-1">
+          <p>Don't have an account <span><a routerLink="/signup" class="poppins-semibold hover:underline">Register</a></span> </p>
+        </div>
       </div>
       <button [disabled]="loginForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 ">Login</button>
     </form>

@@ -3,13 +3,15 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, V
 import {HotToastService} from "@ngxpert/hot-toast";
 import {AuthService} from "../services/auth/auth.service";
 import {catchError, throwError} from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -26,7 +28,6 @@ export class LoginComponent implements OnInit{
     }
 
   handleLoginForm() {
-      let loginData = this.loginForm
-      this.authService.login(loginData);
+      this.authService.login(this.loginForm);
   }
 }

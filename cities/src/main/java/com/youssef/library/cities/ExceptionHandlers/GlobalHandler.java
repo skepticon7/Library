@@ -56,4 +56,10 @@ public class GlobalHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundCustomException(UserAlreadyExistsException e){
+        ErrorResponse error = new ErrorResponse(e.getMessage() , HttpStatus.CONFLICT.value());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
 }

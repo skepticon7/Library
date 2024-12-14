@@ -22,12 +22,12 @@ public class LibrarianController {
 
     private LibrarianService librarianService;
 
-    @PostMapping("/addLibrarian")
-    public ResponseEntity<LibrarianDTO> addLibrarian(@RequestBody @Valid LibrarianDTO librarian ,
-                                                    @RequestParam("libraryId") String libraryId) {
-        Librarian newlibrarian = librarianService.saveLibrarian(LibrarianDtoMapper.toEntity(librarian) , libraryId);
-        return new ResponseEntity<>(LibrarianDtoMapper.toDto(newlibrarian), HttpStatus.CREATED);
-    }
+//    @PostMapping("/addLibrarian")
+//    public ResponseEntity<LibrarianDTO> addLibrarian(@RequestBody @Valid LibrarianDTO librarian ,
+//                                                    @RequestParam("libraryId") String libraryId) {
+//        Librarian newlibrarian = librarianService.saveLibrarian(LibrarianDtoMapper.toEntity(librarian) , libraryId);
+//        return new ResponseEntity<>(LibrarianDtoMapper.toDto(newlibrarian), HttpStatus.CREATED);
+//    }
 
     @GetMapping("/allLibrarians")
     public ResponseEntity<List<LibrarianDTO>> getAllLibrarians() {

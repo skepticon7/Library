@@ -1,0 +1,47 @@
+<div class="flex items-center justify-center">
+  <div class="border-2 border-black rounded-md">
+    <form (ngSubmit)="handleSignupForm()" [formGroup]="signupForm">
+      <div class="flex flex-col gap-5 px-5 py-2">
+        <div class="flex flex-col gap-1">
+          <label>First name : </label>
+          <input class="border-black border-2 px-3 py-2 rounded-md" type="text" formControlName="name">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Last name : </label>
+          <input class="border-black border-2 px-3 py-2 rounded-md" type="text" formControlName="surname">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Password : </label>
+          <input class="border-black border-2 px-3 py-2 rounded-md" type="password" formControlName="password">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Email : </label>
+          <input class="border-black border-2 px-3 py-2 rounded-md" type="text" formControlName="email">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Birth date : </label>
+          <input class="border-black border-2 px-3 py-2 rounded-md" type="date" max="2006-01-01" formControlName="birthDate">
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Gender : </label>
+          <select class="rounded-md border-2 border-black" formControlName="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label>Role : </label>
+          <select  class="rounded-md border-2 border-black" formControlName="role">
+            <option value="Visitor">Visitor</option>
+            <option value="Librarian">Librarian</option>
+          </select>
+        </div>
+        <div class="flex flex-col gap-1">
+          <p>Already have an account ?<span><a routerLink="/login" class="poppins-semibold hover:underline">Login</a></span> </p>
+        </div>
+      </div>
+      <button type="submit" [disabled]="signupForm.invalid" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 ">Signup</button>
+    </form>
+  </div>
+</div>
+
