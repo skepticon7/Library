@@ -57,7 +57,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(ar -> ar.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**" , "/auth/signup/**").permitAll())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**" , "/auth/signup/**" , "/cities/**").permitAll())
                 .authorizeHttpRequests(ar ->ar.anyRequest()
                             .authenticated())
                 .build();

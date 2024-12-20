@@ -17,13 +17,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("cities")
 @AllArgsConstructor
-@CrossOrigin("*")
 public class CityController {
 
 
     private CityService cityService;
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping
         public List<CityDTO> getAllCities(@RequestParam("subName") String subName) {
             List<City> cities = cityService.getAllCities(subName);

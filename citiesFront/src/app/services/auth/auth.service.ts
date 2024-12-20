@@ -43,4 +43,10 @@ export class AuthService {
     })
   }
 
+
+  public retrieveJwtFromLocalStorage(){
+    let userData = localStorage.getItem("user-info");
+    return userData;
+  }
+
 }
