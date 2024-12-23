@@ -23,7 +23,6 @@ public class LibraryController {
 
     private LibraryService libraryService;
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/id")
     public ResponseEntity<List<LibraryDTO>> getAllLibrariesInCityById(@RequestParam("cityId") String cityId){
         List<Library> AllLibrariesInCity = libraryService.getLibrariesByCity(cityId);
@@ -34,23 +33,8 @@ public class LibraryController {
         return new ResponseEntity<>(MappedLibraries, HttpStatus.OK);
     }
 
-//    @GetMapping("/name")
-//    public ResponseEntity<List<LibraryDTO>> getAllLibrariesByName(
-//            @RequestParam("cityName") String cityName,
-//            @RequestParam("minShelves") String minShelves,
-//            @RequestParam("maxShelves") String maxShelves,
-//            @RequestParam("minCapacity") String minCapacity,
-//            @RequestParam("maxCapacity") String maxCapacity
-//            ){
-//        List<Library> AllLibrariesInCity = libraryService.getLibrariesByAllFilters(cityName , minShelves , maxShelves , minCapacity , maxCapacity);
-//        List<LibraryDTO> MappedLibraries = AllLibrariesInCity
-//                .stream()
-//                .map(LibraryDtoMapper::toDto)
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(MappedLibraries, HttpStatus.OK);
-//    }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
+
     @GetMapping("/filteredLibraries")
     public ResponseEntity<List<LibraryDTO>> getAllLibrariesByFilter(
             @RequestParam("subName") String subName,
@@ -77,31 +61,8 @@ public class LibraryController {
     }
 
 
-//
-//    @GetMapping("/capacityBiggerByCity")
-//    public ResponseEntity<List<LibraryDTO>> getLibraryBiggerThanByCity(@RequestParam("capacity") int capacity , @RequestParam("cityId") String cityId){
-//        List<Library> AllLibraries = libraryService.getLibrariesWithCapacityGreaterThanByCity(capacity, cityId);
-//        List<LibraryDTO> MappedLibraries = AllLibraries
-//                .stream()
-//                .map(LibraryDtoMapper::toDto)
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(MappedLibraries, HttpStatus.OK);
-//    }
-//
-//
-//    @GetMapping("/capacityLessByCity")
-//    public ResponseEntity<List<LibraryDTO>> getLibraryLessThanByCity(@RequestParam("capacity") int capacity , @RequestParam("cityId") String cityId){
-//        List<Library> AllLibraries = libraryService.getLibrariesWithCapacityLessThanByCity(capacity ,cityId);
-//        List<LibraryDTO> MappedLibraries = AllLibraries
-//                .stream()
-//                .map(LibraryDtoMapper::toDto)
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(MappedLibraries, HttpStatus.OK);
-//    }
 
 
-
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filterLibrariesByCity")
     public ResponseEntity<List<LibraryDTO>> getLibrariesInCityByVisitors(
             @RequestParam("cityId") String cityId ,
@@ -125,7 +86,7 @@ public class LibraryController {
     }
 
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_LIBRARIAN')")
     @PostMapping("/addLibrary")
     public ResponseEntity<Library> addLibrary(@RequestBody @Valid LibraryDTO libraryDTO , @RequestParam("cityId") String cityId){
             Library newLibrary = libraryService.saveLibrary(LibraryDtoMapper.toEntity(libraryDTO) , cityId);

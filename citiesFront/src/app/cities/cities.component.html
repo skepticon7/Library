@@ -28,5 +28,5 @@
       </ng-template>
     </ng-template>
   </div>
-  <button class="bg-amber-500 px-3 py-1 rounded-lg poppins-semibold text-sm text-white" routerLink="/newCity">Add a city</button>
+  <button *ngIf="authService.roles.includes('ROLE_LIBRARIAN')" class="bg-amber-500 px-3 py-1 rounded-lg poppins-semibold text-sm text-white" routerLink="/newCity">Add a city</button>
 </div>

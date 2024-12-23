@@ -6,6 +6,7 @@ import {CityService} from "../services/city/city.service";
 import {catchError, Observable, throwError} from "rxjs";
 import {AsyncPipe, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {AuthService} from "../services/auth/auth.service";
 
 @Component({
   selector: 'app-cities',
@@ -31,7 +32,7 @@ export class CitiesComponent implements OnInit{
   subName! : string;
 
   //city service injection
-  constructor(private router : Router,private citiesService : CityService , private route : ActivatedRoute) {
+  constructor(public authService : AuthService,private router : Router,private citiesService : CityService , private route : ActivatedRoute) {
   }
 
   ngOnInit(): void {

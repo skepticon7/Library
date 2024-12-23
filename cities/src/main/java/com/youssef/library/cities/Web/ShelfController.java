@@ -25,14 +25,13 @@ public class ShelfController {
 
     private ShelfService shelfService;
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_LIBRARIAN')")
     @PostMapping("/addShelf")
     public ResponseEntity<Shelf> addShelf(@RequestBody ShelfDTO shelfDto , @RequestParam("libraryId") String libraryId) {
         Shelf newShelf = shelfService.saveShelf(ShelfDtoMapper.toEntity(shelfDto) , libraryId);
         return new ResponseEntity<>(newShelf , HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN')")
     @GetMapping("/id")
     public ResponseEntity<List<ShelfDTO>> getShelfinLibraryById(@RequestParam("libraryId") String libraryId) {
         List<Shelf> allShelves = shelfService.getShelvesInLibraryById(libraryId);
@@ -42,7 +41,6 @@ public class ShelfController {
         return new ResponseEntity<>(mappedShelves , HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/name")
     public ResponseEntity<List<ShelfDTO>> getShelfInLibraryByName(@RequestParam("libraryName") String libraryName) {
         List<Shelf> allShelves = shelfService.getShelvesInLibraryByName(libraryName);
@@ -52,7 +50,6 @@ public class ShelfController {
         return new ResponseEntity<>(mappedShelves , HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/categoryAndId")
     public ResponseEntity<List<ShelfDTO>> getShelfInLibraryCategoryAndId(
             @RequestParam("libraryId") String libraryId,
@@ -65,7 +62,6 @@ public class ShelfController {
         return new ResponseEntity<>(mappedShelves , HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filterAsc")
     public ResponseEntity<List<ShelfDTO>> filterShelvesInLibraryByAsc(@RequestParam("libraryId") String libraryId){
         List<Shelf> allShelves = shelfService.filterShelvesInLibraryByAsc(libraryId);
@@ -76,7 +72,6 @@ public class ShelfController {
         return new ResponseEntity<>(mappedShelves , HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filterDsc")
     public ResponseEntity<List<ShelfDTO>> filterShelvesInLibraryByDesc(@RequestParam("libraryId") String libraryId){
         List<Shelf> allShelves = shelfService.filterShelvesInLibraryByDesc(libraryId);
@@ -87,7 +82,6 @@ public class ShelfController {
         return new ResponseEntity<>(mappedShelves , HttpStatus.OK);
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
     @GetMapping("/filteredShelves")
     public ResponseEntity<List<ShelfDTO>> getAllFilteredShelves(
             @RequestParam("libraryId") String libraryId,

@@ -7,6 +7,7 @@ import {book} from "../models/book.mode";
 import {BookService} from "../services/Book/book.service";
 import {HttpParams} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
+import {AuthService} from "../services/auth/auth.service";
 
 @Component({
   selector: 'app-books',
@@ -35,7 +36,7 @@ export class BooksComponent implements OnInit{
   shelfId !: string;
   subName !: string;
 
-  constructor(private fb : FormBuilder ,private bookService : BookService , private router : Router , private route : ActivatedRoute) {}
+  constructor(public autService : AuthService,private fb : FormBuilder ,private bookService : BookService , private router : Router , private route : ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {

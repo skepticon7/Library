@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, V
 import {HotToastService} from "@ngxpert/hot-toast";
 import {AuthService} from "../services/auth/auth.service";
 import {catchError, throwError} from "rxjs";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ import {RouterLink} from "@angular/router";
 export class LoginComponent implements OnInit{
     loginForm !: FormGroup
 
-    constructor(private fb : FormBuilder , private toaster : HotToastService , private authService : AuthService) {}
+    constructor(private router : Router,private fb : FormBuilder , private toaster : HotToastService , private authService : AuthService) {}
     ngOnInit(): void {
         this.loginForm = this.fb.group({
           username : new FormControl('',[Validators.required]),
@@ -28,6 +28,13 @@ export class LoginComponent implements OnInit{
     }
 
   handleLoginForm() {
-      this.authService.login(this.loginForm);
+      this.authService.login(this.loginForm).pipe(
+        catchError(err => {
+          return throwError(()=>new Error(err));
+        })
+      ).subscribe(res => {
+        this.authService.loadProfile(res["jwt-token"]);
+        this.router.navigate(["/"]);
+      });
   }
 }

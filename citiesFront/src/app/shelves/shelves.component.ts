@@ -8,6 +8,7 @@ import {Shelf} from "../models/shelf.model";
 import {HttpParams} from "@angular/common/http";
 import {catchError, Observable, throwError} from "rxjs";
 import {categoryImageLinkGenerator} from "../utils/Category.utils";
+import {AuthService} from "../services/auth/auth.service";
 
 @Component({
   selector: 'app-shelves',
@@ -35,7 +36,7 @@ export class ShelvesComponent implements OnInit{
   order!:string;
   orderType!:string;
 
-  constructor(private fb : FormBuilder , private router : Router , private route : ActivatedRoute , private shelfService : ShelfService) {}
+  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router , private route : ActivatedRoute , private shelfService : ShelfService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{

@@ -30,19 +30,16 @@ public class CityController {
                     .collect(Collectors.toList());
         }
 
-        @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
         @GetMapping("/id")
         public CityDTO getCityById(@RequestParam("cityId") String cityId) {
             return CityDtoMapper.toDto(cityService.getCityById(cityId));
         }
 
-        @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
         @GetMapping("/name")
         public CityDTO getCityByName(@RequestParam("cityName") String name) {
             return CityDtoMapper.toDto(cityService.getCityByName(name));
         }
 
-        @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
         @GetMapping("/filterCityByLibraries")
         public List<CityDTO> getCityByLibrary(@RequestParam("order") String order,@RequestParam("subName") String subName){
             List<City> cities = cityService.filterCityByLibraries(order , subName);
@@ -53,7 +50,7 @@ public class CityController {
         }
 
 
-        @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN')")
+        @PreAuthorize("hasAuthority('SCOPE_ROLE_LIBRARIAN')")
         @PostMapping("/addCity")
         public City addCity(@RequestBody CityDTO city) {
             return cityService.saveCity(CityDtoMapper.toEntity(city));

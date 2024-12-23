@@ -8,6 +8,7 @@ import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpParams} from "@angular/common/http";
 import {appConfig} from "../app.config";
+import {AuthService} from "../services/auth/auth.service";
 
 
 @Component({
@@ -41,7 +42,7 @@ export class LibrariesComponent implements OnInit{
 
 
 
-  constructor(private fb : FormBuilder , private router : Router,private route : ActivatedRoute , private libraryService : LibrariesService) {}
+  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router,private route : ActivatedRoute , private libraryService : LibrariesService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{
