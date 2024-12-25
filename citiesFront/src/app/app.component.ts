@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {AuthService} from "./services/auth/auth.service";
-import {Observable} from "rxjs";
+import {NavigationService} from "./services/navigation/navigation.service";
 
 @Component({
   selector: 'app-root',

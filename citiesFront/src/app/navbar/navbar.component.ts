@@ -3,6 +3,7 @@ import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {AuthService} from "../services/auth/auth.service";
 import {NgIf} from "@angular/common";
+import {NavigationService} from "../services/navigation/navigation.service";
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +20,7 @@ export class NavbarComponent {
   keyword!: string;
   category : string = "";
 
-  constructor(private router : Router , public authService : AuthService) {}
+  constructor(private router : Router , public authService : AuthService , private navigationService : NavigationService) {}
 
 
   HandleSearchForm() {
@@ -33,6 +34,6 @@ export class NavbarComponent {
 
   handleLogout() {
     this.authService.logout();
-    this.router.navigate(["/"]);
+    this.router.navigateByUrl(this.navigationService.getCurrentRoute());
   }
 }
