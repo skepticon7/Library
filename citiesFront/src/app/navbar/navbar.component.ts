@@ -33,6 +33,6 @@ export class NavbarComponent {
 
   handleLogout() {
     this.authService.logout();
-    this.router.navigate([this.router.url]);
+    this.router.navigate(["/"]);
   }
 }

@@ -42,7 +42,8 @@ export class LibrariesComponent implements OnInit{
 
 
 
-  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router,private route : ActivatedRoute , private libraryService : LibrariesService) {}
+  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router,private route : ActivatedRoute , private libraryService : LibrariesService) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{

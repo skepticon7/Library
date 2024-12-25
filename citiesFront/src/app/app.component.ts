@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {HomeComponent} from "./home/home.component";
 import {AuthService} from "./services/auth/auth.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,7 @@ import {AuthService} from "./services/auth/auth.service";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   constructor(private authService : AuthService) {}
-    ngOnInit(): void {
-          let jwtData = this.authService.retrieveJwtFromLocalStorage();
-          if(jwtData)
-            this.authService.loadProfile(jwtData);
-    }
+
 }

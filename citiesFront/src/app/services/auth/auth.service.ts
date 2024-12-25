@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import { FormGroup } from "@angular/forms";
 import { environment } from "../../../environments/environment.development";
-import {catchError, map, throwError} from "rxjs";
+import {BehaviorSubject, catchError, filter, map, Observable, throwError} from "rxjs";
 import {HotToastService} from "@ngxpert/hot-toast";
 import {jwtDecode} from "jwt-decode";
 
@@ -10,25 +10,34 @@ import {jwtDecode} from "jwt-decode";
   providedIn: 'root'
 })
 export class AuthService {
-  isAuthenticated : boolean = false;
   accessToken !: string;
-  roles !: string;
-  username !: string;
-  constructor(private http: HttpClient , private toaster : HotToastService) { }
+
+  private currentUserSubject : BehaviorSubject<{username : string , roles : string} | null> = new BehaviorSubject<{username : string , roles : string} | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
+
+  constructor(private http: HttpClient , private toaster : HotToastService) {
+    if(this.retrieveJwtFromLocalStorage())
+      this.loadProfile(this.retrieveJwtFromLocalStorage() as string);
+
+  }
 
 
   login(loginForm : FormGroup)  {
     return this.http.post<any>(`${environment.BackendServer}/auth/login` , loginForm.value);
   }
 
-  loadProfile(res : string){
-    this.isAuthenticated = true;
-    this.accessToken = res;
-    let decodedJwt = jwtDecode(this.accessToken) as {scope : string , sub : string};
-    this.roles = decodedJwt.scope;
-    this.username = decodedJwt.sub;
-    console.log(decodedJwt);
-    localStorage.setItem("jwt-token",this.accessToken);
+  loadProfile(token : string){
+    try{
+      let decodedJwt = jwtDecode(token) as {scope : string , sub : string};
+      let roles : string=  decodedJwt.scope;
+      let username : string = decodedJwt.sub;
+      let user: {username : string , roles : string} = {username , roles};
+      this.currentUserSubject.next(user);
+      this.accessToken = token;
+      localStorage.setItem("jwt-token",this.accessToken);
+    }catch {
+      this.currentUserSubject.next(null);
+    }
   }
 
 
@@ -40,22 +49,31 @@ export class AuthService {
         return throwError(()=>new Error(err));
       })
     ).subscribe(res => {
-      console.log(res);
       this.toaster.success("user created");
     })
   }
 
 
-  retrieveJwtFromLocalStorage(){
-    let jwtToken = localStorage.getItem("jwt-token");
-    return jwtToken;
+  retrieveJwtFromLocalStorage() : string | null{
+    let jwtToken : string | null = localStorage.getItem("jwt-token");
+    if(jwtToken)
+      return jwtToken;
+    return null;
   }
 
   logout() {
-    this.isAuthenticated = false;
-    this.roles = "";
-    this.username = "";
+    this.currentUserSubject.next(null);
+    console.log("hey");
     this.accessToken = "";
     localStorage.removeItem("jwt-token");
+  }
+
+  getCurrentUser() : {username : string , roles : string} | null{
+    return this.currentUserSubject.value;
+  }
+
+
+  isAuthenticated() : boolean {
+    return this.currentUserSubject.value !== null;
   }
 }

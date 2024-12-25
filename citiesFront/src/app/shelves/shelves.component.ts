@@ -36,7 +36,8 @@ export class ShelvesComponent implements OnInit{
   order!:string;
   orderType!:string;
 
-  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router , private route : ActivatedRoute , private shelfService : ShelfService) {}
+  constructor(public authService : AuthService , private fb : FormBuilder , private router : Router , private route : ActivatedRoute , private shelfService : ShelfService) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params =>{
