@@ -56,8 +56,8 @@ public class SecurityConfiguration {
                 .csrf(csrf->csrf.disable())
                 .cors(Customizer.withDefaults())
                 .oauth2ResourceServer(oa->oa.jwt(Customizer.withDefaults()))
-                .authorizeHttpRequests(ar -> ar.requestMatchers("/shelf/addShelf" , "/cities/addCity" , "/book/addBook" , "libraries/addLibrary").authenticated())
-                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**" ,"/auth/signup/**" , "/cities/**" , "/shelf/**" , "/book/**" , "/libraries/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/shelf/addShelf" , "/cities/addCity" , "/book/addBook" , "libraries/addLibrary" , "reviews/addReview").authenticated())
+                .authorizeHttpRequests(ar->ar.requestMatchers("/auth/login/**" ,"/auth/signup/**" , "/cities/**" , "/shelf/**" , "/book/**" , "/libraries/**" , "/reviews/**" , "auth/profile/**").permitAll())
                 .authorizeHttpRequests(ar ->ar.anyRequest()
                             .authenticated())
                 .build();

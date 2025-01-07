@@ -51,7 +51,7 @@
           <p class="poppins-semibold text-xl">Loading...</p>
         </ng-template>
       </ng-template>
-      <button *ngIf="authService.getCurrentUser()?.roles?.includes('ROLE_LIBRARIAN')" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/newShelf"  [queryParams]="{libraryId : libraryId} ">add shelf</button>
+      <button *ngIf="authService.getCurrentUser()?.roles?.includes('ROLE_LIBRARIAN')" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/librarian/newShelf"  [queryParams]="{libraryId : libraryId} ">add shelf</button>
     </div>
   </div>
 </div>

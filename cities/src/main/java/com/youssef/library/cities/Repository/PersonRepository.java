@@ -1,5 +1,6 @@
 package com.youssef.library.cities.Repository;
 
+import ch.qos.logback.core.net.QueueFactory;
 import com.youssef.library.cities.Entities.Librarian;
 import com.youssef.library.cities.Entities.Library;
 import com.youssef.library.cities.Entities.Person;
@@ -36,4 +37,7 @@ public interface PersonRepository extends JpaRepository<Person, String> {
 
     @Query("SELECT l FROM Librarian l WHERE LOWER(l.name) LIKE LOWER(CONCAT('%',:name,'%')) AND l.libraryForLibrarian.id = :libraryId")
     List<Librarian> findLibrariansInLibraryContainingName(@Param("name") String name , @Param("libraryId") String libraryId);
+
+    @Query("SELECT p FROM Person p WHERE p.id = :personId")
+    Person findPersonById(@Param("personId") String personId);
 }

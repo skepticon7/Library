@@ -1,0 +1,22 @@
+<div class="flex flex-col gap-10">
+  <h1 class="text-xl poppins-semibold">Reviews</h1>
+  <ng-container *ngIf="reviews$ | async as rev$; else loadingOrError">
+    <ng-container *ngIf="rev$.length > 0; else emptyReviews">
+      <div class="flex flex-col gap-3">
+        <div *ngFor="let rev of rev$" class="border-2 border-black rounded-md p-3">
+          <p>Name: {{ rev.person.name }}</p>
+          <p>Stars: {{ rev.stars }}</p>
+          <p>Review: {{ rev.review }}</p>
+          <p>Created At: {{ rev.createdAt }}</p>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #emptyReviews>
+      <p>No reviews available.</p>
+    </ng-template>
+  </ng-container>
+  <ng-template #loadingOrError>
+    <p>Loading or an error occurred while fetching reviews.</p>
+  </ng-template>
+  <button *ngIf="authService.isAuthenticated()" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">add Review</button>
+</div>

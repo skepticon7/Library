@@ -12,8 +12,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
 
-    @Query("SELECT b FROM Book b WHERE b.id = :id")
-    Book findBookById(@Param("id") String id);
+    @Query("SELECT b FROM Book b WHERE b.id = :bookId")
+    Book findBookById(@Param("bookId") String bookId);
 
 
     @Query("SELECT b FROM Book b WHERE b.shelf.id = :shelfId   AND b.pages BETWEEN :minPages AND :maxPages AND b.year BETWEEN :minYear AND :maxYear ORDER BY b.pages")

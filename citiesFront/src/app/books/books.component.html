@@ -49,7 +49,7 @@
           <p class="poppins-semibold text-xl">Loading...</p>
         </ng-template>
       </ng-template>
-      <button *ngIf="autService.getCurrentUser()?.roles?.includes('ROLE_LIBRARIAN')" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/newBook"  [queryParams]="{shelfId : shelfId} ">add book</button>
+      <button *ngIf="autService.getCurrentUser()?.roles?.includes('ROLE_LIBRARIAN')" class="bg-amber-500 rounded-lg text-white poppins-semibold px-3 py-2 self-start" routerLink="/librarian/newBook"  [queryParams]="{shelfId : shelfId} ">add book</button>
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule} from "@angular
 import {NavbarComponent} from "../navbar/navbar.component";
 import {NgForOf, NgIf} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {book} from "../models/book.mode";
+import {book} from "../models/book.model";
 import {BookService} from "../services/Book/book.service";
 import {HttpParams} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";

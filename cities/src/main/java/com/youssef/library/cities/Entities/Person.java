@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE",length = 10)
 @Data
@@ -27,6 +30,9 @@ public class Person {
     private Gender gender;
     private String email;
     private String password;
+
+    @OneToMany(mappedBy = "person")
+    private List<Review> reviews = new ArrayList<>();
 }
 
 

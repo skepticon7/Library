@@ -1,4 +1,4 @@
-import {book} from "./book.mode";
+import {book} from "./book.model";
 import {Duration} from "tinyduration";
 
 

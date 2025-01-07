@@ -4,7 +4,7 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {ActivatedRoute, Router} from "@angular/router";
 import {BookService} from "../services/Book/book.service";
 import {CloudinaryService} from "../services/cloudinary/cloudinary.service";
-import {book} from "../models/book.mode";
+import {book} from "../models/book.model";
 import {catchError, Observable, throwError} from "rxjs";
 import { HotToastService } from '@ngxpert/hot-toast';
 import {NgIf} from "@angular/common";

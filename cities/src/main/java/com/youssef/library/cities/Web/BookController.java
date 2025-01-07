@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @RestController
 @RequestMapping("book")
-@CrossOrigin("*")
 public class BookController {
 
     private BookService bookService;

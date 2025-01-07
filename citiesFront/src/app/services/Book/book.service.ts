@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {FormGroup} from "@angular/forms";
-import {book, bookData} from "../../models/book.mode";
+import {book, bookData} from "../../models/book.model";
 import {environment} from "../../../environments/environment.development";
 import {Observable} from "rxjs";
 import {Shelf} from "../../models/shelf.model";

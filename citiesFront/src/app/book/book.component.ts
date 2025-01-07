@@ -4,11 +4,12 @@ import {NavbarComponent} from "../navbar/navbar.component";
 import {NgClass, NgForOf, NgIf, NgOptimizedImage} from "@angular/common";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {BookService} from "../services/Book/book.service";
-import {book, bookData} from "../models/book.mode";
+import {book, bookData} from "../models/book.model";
 import {HttpParams} from "@angular/common/http";
 import {catchError, throwError} from "rxjs";
 import {StripeService} from "../services/stripe/stripe.service";
 import {HotToastService} from "@ngxpert/hot-toast";
+import {ReviewsComponent} from "../reviews/reviews.component";
 
 @Component({
   selector: 'app-book',
@@ -21,7 +22,8 @@ import {HotToastService} from "@ngxpert/hot-toast";
     ReactiveFormsModule,
     RouterLink,
     NgClass,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ReviewsComponent
   ],
   templateUrl: './book.component.html',
   styleUrl: './book.component.css'
