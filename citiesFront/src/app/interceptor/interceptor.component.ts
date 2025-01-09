@@ -6,7 +6,7 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class InterceptorComponent implements HttpInterceptor {
-    private includedRoutes : string[] = ['/addShelf' , '/addLibrary' , '/addCity' , '/addBook' ,'/pdfBook' , '/librarian/newCity' , '/librarian/newShelf' ,'/librarian/newBook' , '/librarian/newLibrary'];
+    private includedRoutes : string[] = ['/addShelf' , '/addReview' , '/addLibrary' , '/addCity' , '/addBook' ,'/pdfBook' , '/librarian/newCity' , '/librarian/newShelf' ,'/librarian/newBook' , '/librarian/newLibrary'];
 
     constructor(private authService : AuthService , private router : Router) {}
 

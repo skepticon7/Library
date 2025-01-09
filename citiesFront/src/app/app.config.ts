@@ -11,7 +11,9 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes) ,
-    provideHotToastConfig(),
+    provideHotToastConfig({
+      duration : 1500
+    }),
     provideHttpClient(
       withInterceptorsFromDi()
     ),

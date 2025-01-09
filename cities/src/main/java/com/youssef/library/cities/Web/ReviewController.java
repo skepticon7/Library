@@ -9,6 +9,7 @@ import com.youssef.library.cities.Service.Review.ReviewService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class ReviewController {
         return new ResponseEntity<>(mappedReviews , HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_LIBRARIAN') or hasAuthority('SCOPE_ROLE_VISITOR')")
     @PostMapping("/addReview")
     public ResponseEntity<ReviewRetrievalDTO> addReview(
             @RequestBody ReviewInsertionDTO reviewInsertionDTO,

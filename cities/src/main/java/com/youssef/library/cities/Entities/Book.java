@@ -55,6 +55,10 @@ public class Book {
 
     @OneToMany(mappedBy = "book")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Notes> notes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Review> reviews = new ArrayList<>();
 }
 

@@ -1,6 +1,7 @@
 package com.youssef.library.cities.Entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.stripe.model.tax.Registration;
 import com.youssef.library.cities.Enums.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,9 @@ public class Person {
 
     @OneToMany(mappedBy = "person")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "person")
+    private List<Notes> notes = new ArrayList<>();
 }
 
 

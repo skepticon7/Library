@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
         return User.builder()
                 .username(user.getSurname())
                 .password(user.getPassword())
-                .roles(librarianOrNot ? new String[]{"VISITOR", "LIBRARIAN"} : new String[]{"VISITOR"})
-            .build();
+                .roles(librarianOrNot ? new String[]{"VISITOR", "LIBRARIAN"} : new String[]{"VISITOR"})// assuming you have roles defined in the Person entity
+                .build();
     }
 }

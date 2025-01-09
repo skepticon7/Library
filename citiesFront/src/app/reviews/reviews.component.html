@@ -18,5 +18,18 @@
   <ng-template #loadingOrError>
     <p>Loading or an error occurred while fetching reviews.</p>
   </ng-template>
-  <button *ngIf="authService.isAuthenticated()" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">add Review</button>
+  <div *ngIf="addReviewToggled()">
+    <form (ngSubmit)="submitReview()" [formGroup]="reviewForm">
+      <div>
+        <label>Review : </label>
+        <textarea class="border-2 border-black rounded-md" maxlength="100" formControlName="review"></textarea>
+      </div>
+      <div>
+        <label>Star number : </label>
+        <input class="border-2 border-black rounded-md" type="number" formControlName="stars">
+      </div>
+      <button type="submit" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32">Submit review</button>
+    </form>
+  </div>
+  <button *ngIf="!addReviewToggled()" class="bg-amber-500 rounded-md text-white text-sm self-center poppins-semibold px-2 py-2 min-w-32" (click)="handleAddReviewToggled()">add Review</button>
 </div>

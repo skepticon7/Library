@@ -10,7 +10,9 @@ import com.youssef.library.cities.DTOs.Person.PersonDtoMapper;
 import com.youssef.library.cities.DTOs.Visitor.VisitorDTO;
 import com.youssef.library.cities.DTOs.Visitor.VisitorDtoMapper;
 import com.youssef.library.cities.Entities.Librarian;
+import com.youssef.library.cities.Entities.Person;
 import com.youssef.library.cities.Entities.Visitor;
+import com.youssef.library.cities.Repository.PersonRepository;
 import com.youssef.library.cities.Service.Librarian.LibrarianService;
 import com.youssef.library.cities.Service.Visitor.VisitorService;
 import jakarta.validation.Valid;
@@ -21,6 +23,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.*;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,7 @@ public class SecurityController {
     private final JwtEncoder jwtEncoder;
     private VisitorService visitorService;
     private LibrarianService librarianService;
+    private PersonRepository personRepository;
 
     @GetMapping("/profile")
     public Authentication authentication(Authentication authentication){
@@ -54,12 +58,16 @@ public class SecurityController {
         );
         String scope = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(" "));
         Instant instant = Instant.now();
+        Person user = personRepository.findPersonByUsername(loginDTO.getUsername());
+        if (user == null) {
+            throw new UsernameNotFoundException(loginDTO.getUsername());
+        }
         JwtClaimsSet jwtClaimsSet = JwtClaimsSet.builder()
                 .issuedAt(instant)
-                .expiresAt(instant.plus(10, ChronoUnit.MINUTES))
+                .expiresAt(instant.plus(30, ChronoUnit.MINUTES))
                 .subject(loginDTO.getUsername())
                 .claim("scope",scope)
-
+                .claim("id",user.getId())
                 .build();
         JwtEncoderParameters jwtEncoderParameters = JwtEncoderParameters.from(
                 JwsHeader.with(MacAlgorithm.HS512).build(),

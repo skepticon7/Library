@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewInsertionDTO {
     private String review;
-    private double stars;
+    private int stars;
 }

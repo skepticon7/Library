@@ -12,7 +12,7 @@ import {jwtDecode} from "jwt-decode";
 export class AuthService {
   accessToken !: string;
 
-  private currentUserSubject : BehaviorSubject<{username : string , roles : string} | null> = new BehaviorSubject<{username : string , roles : string} | null>(null);
+  private currentUserSubject : BehaviorSubject<{id : string , username : string , roles : string} | null> = new BehaviorSubject<{id : string , username : string , roles : string} | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient , private toaster : HotToastService) {
@@ -28,10 +28,11 @@ export class AuthService {
 
   loadProfile(token : string){
     try{
-      let decodedJwt = jwtDecode(token) as {scope : string , sub : string};
-      let roles : string=  decodedJwt.scope;
+      let decodedJwt = jwtDecode(token) as {id : string , scope : string , sub : string};
+      let roles : string = decodedJwt.scope;
+      let id : string = decodedJwt.id;
       let username : string = decodedJwt.sub;
-      let user: {username : string , roles : string} = {username , roles};
+      let user: {id : string ,username : string , roles : string} = {id , username , roles};
       this.currentUserSubject.next(user);
       this.accessToken = token;
       localStorage.setItem("jwt-token",this.accessToken);
@@ -68,10 +69,13 @@ export class AuthService {
     localStorage.removeItem("jwt-token");
   }
 
-  getCurrentUser() : {username : string , roles : string} | null{
-    return this.currentUserSubject.value;
+  getCurrentUser(): {id : string ,  username: string,  roles: string } | null {
+    const currentUser = this.currentUserSubject.value;
+    if (currentUser) {
+      return currentUser;
+    }
+    return null;
   }
-
 
   isAuthenticated() : boolean {
     return this.currentUserSubject.value !== null;
