@@ -16,6 +16,7 @@ import {PdfPageComponent} from "./pdf-page/pdf-page.component";
 import {LoginComponent} from "./login/login.component";
 import {SignupComponent} from "./signup/signup.component";
 import {authGuard} from "./utils/auth.guard";
+import {ProfileComponent} from "./profile/profile.component";
 
 export const routes: Routes = [
   { path: "", component: HomeComponent },
@@ -26,15 +27,22 @@ export const routes: Routes = [
   { path: "book", component: BookComponent },
   { path: "success", component: SuccessComponent },
   { path: "cancel", component: CancelComponent },
-  { path: "sessions", canActivate: [authGuard], component: SessionsComponent },
   { path: "pdfBook", canActivate: [authGuard], component: PdfPageComponent },
   { path: "login", component: LoginComponent },
   { path: "signup", component: SignupComponent },
-
+  {
+    path : "user",
+    canActivate : [authGuard],
+    children : [
+      { path: "sessions", component: SessionsComponent },
+      { path: "profile" , component: ProfileComponent}
+    ]
+  },
   {
     path: "librarian",
     canActivate: [authGuard],
     children: [
+      { path: "profile" , component: ProfileComponent },
       { path: "newCity", component: NewCityComponent },
       { path: "newLibrary", component: NewLibraryComponent },
       { path: "newShelf", component: NewShelfComponent },

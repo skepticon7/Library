@@ -27,7 +27,9 @@
         </form>
       <button *ngIf="!authService.isAuthenticated()" class=" bg-amber-500 px-3 h-full poppins-semibold rounded-lg text-white" routerLink="/login">Login</button>
       <ng-container *ngIf="authService.isAuthenticated()">
-        <button><img class="w-10" src="user.png"></button>
+        <button>
+          <img class="w-10" src="user.png">
+        </button>
         <button class=" bg-amber-500 px-3 h-full poppins-semibold rounded-lg text-white" (click)="handleLogout()">Logout</button>
       </ng-container>
     </div>

@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+<div class="mx-56 py-10 flex flex-col items-start justify-center gap-5">
+  <div class="flex gap-10">
+    <div class="flex flex-col gap-2">
+      <button (click)="selectOption('personalInfo')" class="bg-amber-500 px-3 py-2 rounded-lg poppins-semibold text-lg text-white">Personal Info</button>
+      <button (click)="selectOption('sessions')" class="bg-amber-500 px-3 py-2 rounded-lg poppins-semibold text-lg text-white">Sessions booked</button>
+      <button (click)="selectOption('bookmarks')" class="bg-amber-500 px-3 py-2 rounded-lg poppins-semibold text-lg text-white">Bookmarks</button>
+      <button (click)="selectOption('reviews')" class="bg-amber-500 px-3 py-2 rounded-lg poppins-semibold text-lg text-white">Reviews</button>
+      <button *ngIf="authService.getCurrentUser()?.roles?.includes('LIBRARIAN')" class="bg-amber-500 px-3 py-2 rounded-lg poppins-semibold text-lg text-white">Books Managed</button>
+    </div>
+    <div>
+      <ng-container *ngIf="selectedOption == 'personalInfo'">
+        <app-personal-info></app-personal-info>
+      </ng-container>
+      <ng-container *ngIf="selectedOption == 'sessions'">
+        <app-sessions></app-sessions>
+      </ng-container>
+      <ng-container *ngIf="selectedOption == 'bookmarks'">
+        <app-bookmarks></app-bookmarks>
+      </ng-container>
+      <ng-container *ngIf="selectedOption == 'reviews'">
+        <app-reviews></app-reviews>
+      </ng-container>
+    </div>
+  </div>
+</div>

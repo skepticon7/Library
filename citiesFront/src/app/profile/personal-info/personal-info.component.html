@@ -1,0 +1,29 @@
+<div class="flex flex-col gap-2">
+  <h1 class="text-xl poppins-semibold">Hello , {{authService.getCurrentUser()?.username}}</h1>
+  <form class="flex flex-col gap-5" (ngSubmit)="submitPersonalInfo()" [formGroup]="personalInfoForm">
+    <div class="grid grid-cols-2 gap-x-3 gap-y-3">
+      <div class="flex flex-col gap-1">
+        <label>Username : </label>
+        <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" type="text" formControlName="surname">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label>Full name : </label>
+        <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" type="text" formControlName="name">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label>Date of birth : </label>
+        <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" type="date" max="2006-01-01" formControlName="birthDate">
+      </div>
+
+      <div class="flex flex-col gap-1">
+        <label>Email : </label>
+        <input class="border-2 border-black border-opacity-70 rounded-md px-2 text-sm py-2" type="text" formControlName="email">
+      </div>
+
+    </div>
+    <button [disabled]="!personalInfoForm.valid" type="submit" class="bg-amber-500 px-3 py-2 h-full poppins-semibold rounded-lg text-white">Save changes</button>
+  </form>
+</div>
+

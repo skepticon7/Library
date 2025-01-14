@@ -78,6 +78,7 @@ export class AuthService {
   }
 
   isAuthenticated() : boolean {
+    console.log(this.currentUserSubject.value !== null);
     return this.currentUserSubject.value !== null;
   }
 }

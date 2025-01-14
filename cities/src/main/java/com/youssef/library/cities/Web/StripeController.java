@@ -23,7 +23,7 @@ public class StripeController {
         Stripe.apiKey = "sk_test_51Pb0Lc2KEqYcHYvzDIC7XHMHiwmX9d6xodjdB0H9KLK7TRFQcvlDKXeCxsk5dvGyXppsp661F26NNeDeWaUawqpI005519gtza";
     }
 
-    @PreAuthorize("hasAuthority('SCOPE_LIBRARIAN') or hasAuthority('SCOPE_VISITOR')")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_LIBRARIAN') or hasAuthority('SCOPE_ROLE_VISITOR')")
     @PostMapping("/payment")
     public ResponseEntity<HashMap<String , String>> getCheckoutSession(@RequestBody CheckoutPayment paymentDetails){
         init();

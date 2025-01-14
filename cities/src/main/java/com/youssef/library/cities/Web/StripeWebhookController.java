@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -31,6 +32,7 @@ public class StripeWebhookController {
 
     private static final String WebHook_Secret = "whsec_IJBhIrA3R5MPCzuSAgbiWCnMavyUPmuS";
     @PostMapping("/webhook")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_VISITOR') or hasAuthority('SCOPE_ROLE_LIBRARIAN')")
     public ResponseEntity<String> confirmedPayment(@RequestBody String payload , @RequestHeader("Stripe-Signature") String sigHeader){
             try{
                 String endpoint_key = WebHook_Secret;
@@ -49,7 +51,7 @@ public class StripeWebhookController {
                         SessionType sessionType = sessionTypeStr.equals("halfPrice") ? SessionType.half : sessionTypeStr.equals("onePrice") ? SessionType.one : SessionType.oneHalf;
                         sessionDTO.setSessionType(sessionType);
                         sessionDTO.setSessionType(sessionType);
-                        sessionDTO.setOriginalTime(Duration.ofHours(0L).plusMinutes(0L).plusSeconds(15L));
+                        sessionDTO.setOriginalTime(Duration.ofHours(1L).plusMinutes(0L).plusSeconds(15L));
                         Session previousSession = sessionService.getSessionByBook(bookId ,customerId);
                         if(previousSession != null)
                             sessionDTO.setCurrentPage(previousSession.getCurrentPage());
